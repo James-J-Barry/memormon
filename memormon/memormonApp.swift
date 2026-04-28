@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct memormonApp: App {
+struct MemormonApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
