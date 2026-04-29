@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memormon Card Creator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🃏 Memormon Card Creator</h1>
+    <div class="header-actions">
+      <span id="stats"></span>
+      <button onclick="exportData()">📦 Export to content/</button>
+      <button onclick="importData()">📂 Import JSON</button>
+      <input type="file" id="import-file" accept=".json" hidden>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sidebar: Pack list -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h2>Packs</h2>
+        <button onclick="showPackForm()">+ New Pack</button>
+      </div>
+      <div id="pack-list"></div>
+    </aside>
+
+    <!-- Main content area -->
+    <section id="content">
+      <!-- Pack form (hidden by default) -->
+      <div id="pack-form" class="form-panel" hidden>
+        <h2 id="pack-form-title">New Pack</h2>
+        <label>
+          Name
+          <input type="text" id="pack-name" placeholder="Summer in Aberdeen">
+        </label>
+        <label>
+          Emoji
+          <input type="text" id="pack-emoji" placeholder="☀️" maxlength="4">
+        </label>
+        <label>
+          Description
+          <input type="text" id="pack-desc" placeholder="Sun, sand, and memories">
+        </label>
+        <label>
+          Cover Color
+          <div class="color-row">
+            <input type="color" id="pack-color" value="#7c3aed">
+            <span id="pack-color-hex">#7c3aed</span>
+          </div>
+        </label>
+        <div class="form-actions">
+          <button onclick="savePack()">Save Pack</button>
+          <button class="secondary" onclick="hidePackForm()">Cancel</button>
+          <button class="danger" id="delete-pack-btn" onclick="deletePack()" hidden>Delete</button>
+        </div>
+      </div>
+
+      <!-- Card form (hidden by default) -->
+      <div id="card-form" class="form-panel" hidden>
+        <h2 id="card-form-title">New Card</h2>
+        <div class="card-form-layout">
+          <div class="card-form-fields">
+            <label>
+              Title
+              <input type="text" id="card-title" placeholder="Beach Day at Sunset">
+            </label>
+            <label>
+              Caption
+              <textarea id="card-caption" placeholder="The waves were perfect that day" rows="2"></textarea>
+            </label>
+            <label>
+              Date
+              <input type="date" id="card-date">
+            </label>
+            <label>
+              Rarity
+              <select id="card-rarity">
+                <option value="everyday">♡ Everyday</option>
+                <option value="favorite">♡♡ Favorite</option>
+                <option value="milestone">★ Milestone</option>
+                <option value="epic">★★ Epic</option>
+                <option value="legendary">👑 Legendary</option>
+              </select>
+            </label>
+            <label>
+              Image Filename
+              <input type="text" id="card-image" placeholder="beach-day.jpg">
+              <small>Place the actual file in content/images/</small>
+            </label>
+            <label>
+              Preview Image (optional)
+              <input type="file" id="card-image-preview" accept="image/*">
+            </label>
+          </div>
+
+          <!-- Live card preview -->
+          <div class="card-preview-container">
+            <h3>Preview</h3>
+            <div id="card-preview" class="card-preview">
+              <div class="preview-image" id="preview-image">📷</div>
+              <div class="preview-info">
+                <div class="preview-title" id="preview-title">Card Title</div>
+                <div class="preview-caption" id="preview-caption">Caption text</div>
+                <div class="preview-date" id="preview-date">2024-01-01</div>
+                <div class="preview-rarity" id="preview-rarity">♡ Everyday</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button onclick="saveCard()">Save Card</button>
+          <button onclick="saveCardAndNew()">Save & Add Another</button>
+          <button class="secondary" onclick="hideCardForm()">Cancel</button>
+          <button class="danger" id="delete-card-btn" onclick="deleteCard()" hidden>Delete</button>
+        </div>
+      </div>
+
+      <!-- Card list for selected pack -->
+      <div id="card-list-panel">
+        <div class="card-list-header">
+          <h2 id="card-list-title">Select a pack to view cards</h2>
+          <button id="add-card-btn" onclick="showCardForm()" hidden>+ Add Card</button>
+        </div>
+        <div id="card-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

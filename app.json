@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Memormon",
+    "slug": "memormon",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "memormon",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f0f13"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.memormon.app"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
