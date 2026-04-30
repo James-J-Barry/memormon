@@ -13,7 +13,7 @@ import { useState } from "react";
 export default function HomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { collection, packsAvailable, lastPackTime, refreshPacks } = useStore();
+  const { collection, packsAvailable, lastPackTime, refreshPacks, grantPacks } = useStore();
 
   // Refresh packs on mount
   useEffect(() => {
@@ -49,8 +49,8 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-      {/* Pack status */}
-      <View style={styles.packStatus}>
+      {/* Pack status — long press to grant a pack (dev shortcut) */}
+      <Pressable style={styles.packStatus} onLongPress={() => grantPacks(2)}>
         {hasPacksReady ? (
           <Text style={styles.packsReady}>
             {packsAvailable} pack{packsAvailable !== 1 ? "s" : ""} ready!
@@ -60,7 +60,7 @@ export default function HomeScreen() {
             Next pack in {countdown}
           </Text>
         )}
-      </View>
+      </Pressable>
 
       {/* Navigation buttons */}
       <View style={styles.buttons}>

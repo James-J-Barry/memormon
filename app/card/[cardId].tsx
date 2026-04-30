@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Pressable, Dimensions, ScrollView } from "react-native";
-import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/colors";
@@ -8,11 +7,10 @@ import { spacing, borderRadius } from "../../theme/spacing";
 import { useStore } from "../../store/useStore";
 import { CARDS } from "../../data/cards";
 import { RARITY_CONFIG, COSMETIC_TIERS } from "../../data/rarities";
-import { CARD_IMAGES } from "../../data/images";
+import Card from "../../components/Card";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const CARD_WIDTH = SCREEN_WIDTH * 0.85;
-const CARD_HEIGHT = CARD_WIDTH * 1.3;
+const CARD_WIDTH = SCREEN_WIDTH * 0.78;
 
 export default function CardDetailScreen() {
   const { cardId } = useLocalSearchParams<{ cardId: string }>();
@@ -27,12 +25,13 @@ export default function CardDetailScreen() {
   const entry = collection[card.id];
   if (!entry) return null;
 
-  const rarity = RARITY_CONFIG[card.rarity];
-
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ paddingTop: insets.top + spacing.md, paddingBottom: spacing.xxl }}
+      contentContainerStyle={{
+        paddingTop: insets.top + spacing.md,
+        paddingBottom: spacing.xxl,
+      }}
       showsVerticalScrollIndicator={false}
     >
       {/* Header */}
@@ -44,51 +43,12 @@ export default function CardDetailScreen() {
 
       {/* Card */}
       <View style={styles.cardWrapper}>
-        <View
-          style={[
-            styles.card,
-            { borderColor: rarity.color },
-            (card.rarity === "epic" || card.rarity === "legendary") && {
-              shadowColor: rarity.color,
-              shadowOpacity: 0.5,
-              shadowRadius: 16,
-              shadowOffset: { width: 0, height: 0 },
-            },
-          ]}
-        >
-          {/* Card photo */}
-          <View style={styles.imageArea}>
-            {card.image && CARD_IMAGES[card.image] ? (
-              <Image
-                source={CARD_IMAGES[card.image]}
-                style={styles.cardImage}
-                contentFit="cover"
-              />
-            ) : (
-              <Text style={styles.imagePlaceholder}>📷</Text>
-            )}
-          </View>
-
-          {/* Info */}
-          <View style={styles.info}>
-            <Text style={styles.cardTitle}>{card.title}</Text>
-            <Text style={styles.cardCaption}>{card.caption}</Text>
-            <Text style={styles.cardDate}>{card.date}</Text>
-            <View style={styles.rarityRow}>
-              <Text style={[styles.raritySymbol, { color: rarity.color }]}>
-                {rarity.symbol}
-              </Text>
-              <Text style={[styles.rarityLabel, { color: rarity.color }]}>
-                {rarity.label}
-              </Text>
-            </View>
-          </View>
-        </View>
+        <Card card={card} entry={entry} width={CARD_WIDTH} />
       </View>
 
       {/* Copies count */}
       <Text style={styles.copiesText}>
-        Copies: {entry.count}
+        {entry.count} {entry.count === 1 ? "copy" : "copies"}
       </Text>
 
       {/* Cosmetic tiers */}
@@ -127,9 +87,7 @@ export default function CardDetailScreen() {
                     : `${entry.count} / ${tier.dupsRequired} copies`}
                 </Text>
               </View>
-              {canUnlock && (
-                <Text style={styles.unlockLabel}>Unlock!</Text>
-              )}
+              {canUnlock && <Text style={styles.unlockLabel}>Unlock!</Text>}
             </Pressable>
           );
         })}
@@ -139,7 +97,6 @@ export default function CardDetailScreen() {
       <Pressable
         style={styles.favoriteButton}
         onPress={() => {
-          // Find first empty slot, or replace slot 0
           const emptySlot = favorites.indexOf(null) as 0 | 1 | 2;
           const slot = emptySlot >= 0 ? emptySlot : 0;
           setFavorite(slot, card.id);
@@ -166,65 +123,9 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.md,
     color: colors.accent,
   },
-  // Card
   cardWrapper: {
     alignItems: "center",
   },
-  card: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    backgroundColor: colors.surface,
-    borderRadius: borderRadius.lg,
-    borderWidth: 2,
-    overflow: "hidden",
-  },
-  imageArea: {
-    flex: 1,
-    backgroundColor: colors.surfaceLight,
-    overflow: "hidden",
-  },
-  cardImage: {
-    width: "100%",
-    height: "100%",
-  },
-  imagePlaceholder: {
-    fontSize: 48,
-    opacity: 0.3,
-  },
-  info: {
-    padding: spacing.md,
-  },
-  cardTitle: {
-    fontFamily: fonts.semiBold,
-    fontSize: fontSizes.lg,
-    color: colors.text,
-  },
-  cardCaption: {
-    fontFamily: fonts.regular,
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-    marginTop: spacing.xs,
-  },
-  cardDate: {
-    fontFamily: fonts.regular,
-    fontSize: fontSizes.xs,
-    color: colors.textMuted,
-    marginTop: spacing.xs,
-  },
-  rarityRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.xs,
-    marginTop: spacing.sm,
-  },
-  raritySymbol: {
-    fontSize: fontSizes.md,
-  },
-  rarityLabel: {
-    fontFamily: fonts.semiBold,
-    fontSize: fontSizes.sm,
-  },
-  // Copies
   copiesText: {
     fontFamily: fonts.medium,
     fontSize: fontSizes.sm,
@@ -232,7 +133,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: spacing.md,
   },
-  // Cosmetics
   cosmeticSection: {
     paddingHorizontal: spacing.lg,
     marginTop: spacing.md,
@@ -277,7 +177,6 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     color: colors.accent,
   },
-  // Favorite
   favoriteButton: {
     marginHorizontal: spacing.lg,
     marginTop: spacing.md,

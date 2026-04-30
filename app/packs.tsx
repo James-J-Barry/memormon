@@ -3,15 +3,15 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../theme/colors";
 import { fonts, fontSizes } from "../theme/typography";
-import { spacing, borderRadius } from "../theme/spacing";
+import { spacing } from "../theme/spacing";
 import { PACKS } from "../data/packs";
 import { CARDS } from "../data/cards";
 import { useStore } from "../store/useStore";
-import { LinearGradient } from "expo-linear-gradient";
+import PackCover from "../components/PackCover";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const PACK_WIDTH = SCREEN_WIDTH * 0.65;
-const PACK_HEIGHT = PACK_WIDTH * 1.4;
+const PACK_HEIGHT = PACK_WIDTH * 1.72;
 
 export default function PackSelectionScreen() {
   const router = useRouter();
@@ -26,9 +26,7 @@ export default function PackSelectionScreen() {
           <Text style={styles.backButton}>← Back</Text>
         </Pressable>
         <Text style={styles.headerTitle}>Choose a Pack</Text>
-        <Text style={styles.packCount}>
-          {packsAvailable} available
-        </Text>
+        <Text style={styles.packCount}>{packsAvailable} available</Text>
       </View>
 
       {/* Pack carousel */}
@@ -44,30 +42,27 @@ export default function PackSelectionScreen() {
           const packCards = CARDS.filter((c) => c.packId === pack.id);
           const collected = packCards.filter((c) => collection[c.id]).length;
           const total = packCards.length;
+          const canOpen = packsAvailable > 0;
 
           return (
             <Pressable
               key={pack.id}
+              style={[styles.packWrapper, !canOpen && styles.packWrapperDisabled]}
               onPress={() => {
-                if (packsAvailable > 0) {
-                  router.push(`/open/${pack.id}`);
-                }
+                if (canOpen) router.push(`/open/${pack.id}`);
               }}
-              style={styles.packWrapper}
             >
-              <LinearGradient
-                colors={[pack.coverColor, colors.surface]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.packCover}
-              >
-                <Text style={styles.packEmoji}>{pack.emoji}</Text>
-                <Text style={styles.packName}>{pack.name}</Text>
-                <Text style={styles.packDescription}>{pack.description}</Text>
-                <Text style={styles.packProgress}>
-                  {collected} / {total} collected
-                </Text>
-              </LinearGradient>
+              <PackCover pack={pack} width={PACK_WIDTH} height={PACK_HEIGHT} />
+
+              {/* Progress below pack */}
+              <Text style={styles.progress}>
+                {collected} / {total} collected
+              </Text>
+
+              {/* Overlay when no packs available */}
+              {!canOpen && (
+                <View style={[styles.lockedOverlay, { width: PACK_WIDTH, height: PACK_HEIGHT }]} />
+              )}
             </Pressable>
           );
         })}
@@ -115,40 +110,22 @@ const styles = StyleSheet.create({
   packWrapper: {
     width: PACK_WIDTH,
     marginRight: spacing.md,
-  },
-  packCover: {
-    width: PACK_WIDTH,
-    height: PACK_HEIGHT,
-    borderRadius: borderRadius.lg,
     alignItems: "center",
-    justifyContent: "center",
-    padding: spacing.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
   },
-  packEmoji: {
-    fontSize: 64,
-    marginBottom: spacing.md,
+  packWrapperDisabled: {
+    opacity: 0.5,
   },
-  packName: {
-    fontFamily: fonts.bold,
-    fontSize: fontSizes.xl,
-    color: colors.text,
-    textAlign: "center",
-  },
-  packDescription: {
-    fontFamily: fonts.regular,
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-    textAlign: "center",
-    marginTop: spacing.xs,
-  },
-  packProgress: {
+  progress: {
     fontFamily: fonts.medium,
     fontSize: fontSizes.sm,
-    color: colors.text,
-    marginTop: spacing.lg,
-    opacity: 0.7,
+    color: colors.textMuted,
+    marginTop: spacing.sm,
+  },
+  lockedOverlay: {
+    position: "absolute",
+    top: 0,
+    borderRadius: PACK_WIDTH * 0.06,
+    backgroundColor: "rgba(13,11,18,0.45)",
   },
   noPacksText: {
     fontFamily: fonts.medium,

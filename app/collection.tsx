@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-  Dimensions,
-} from "react-native";
-import { Image } from "expo-image";
+import { View, Text, StyleSheet, Pressable, ScrollView, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState } from "react";
@@ -16,11 +8,14 @@ import { spacing, borderRadius } from "../theme/spacing";
 import { useStore } from "../store/useStore";
 import { CARDS } from "../data/cards";
 import { PACKS } from "../data/packs";
-import { RARITY_CONFIG } from "../data/rarities";
-import { CARD_IMAGES } from "../data/images";
+import Card from "../components/Card";
+import CardBack from "../components/CardBack";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const THUMB_SIZE = (SCREEN_WIDTH - spacing.lg * 2 - spacing.sm * 2) / 3;
+// 3 cards per row with padding on sides and gaps between cards
+const H_PAD = spacing.lg;
+const GAP = spacing.sm;
+const CARD_WIDTH = (SCREEN_WIDTH - H_PAD * 2 - GAP * 2) / 3;
 
 export default function CollectionScreen() {
   const router = useRouter();
@@ -28,14 +23,16 @@ export default function CollectionScreen() {
   const { collection } = useStore();
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
-  // Filter cards
   const visibleCards =
     activeFilter === "all"
       ? CARDS
       : CARDS.filter((c) => c.packId === activeFilter);
 
-  // Progress for current filter
   const collectedInFilter = visibleCards.filter((c) => collection[c.id]).length;
+  const progressPct =
+    visibleCards.length > 0
+      ? `${(collectedInFilter / visibleCards.length) * 100}%`
+      : "0%";
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + spacing.md }]}>
@@ -60,30 +57,17 @@ export default function CollectionScreen() {
           style={[styles.filterTab, activeFilter === "all" && styles.filterTabActive]}
           onPress={() => setActiveFilter("all")}
         >
-          <Text
-            style={[
-              styles.filterTabText,
-              activeFilter === "all" && styles.filterTabTextActive,
-            ]}
-          >
+          <Text style={[styles.filterTabText, activeFilter === "all" && styles.filterTabTextActive]}>
             All
           </Text>
         </Pressable>
         {PACKS.map((pack) => (
           <Pressable
             key={pack.id}
-            style={[
-              styles.filterTab,
-              activeFilter === pack.id && styles.filterTabActive,
-            ]}
+            style={[styles.filterTab, activeFilter === pack.id && styles.filterTabActive]}
             onPress={() => setActiveFilter(pack.id)}
           >
-            <Text
-              style={[
-                styles.filterTabText,
-                activeFilter === pack.id && styles.filterTabTextActive,
-              ]}
-            >
+            <Text style={[styles.filterTabText, activeFilter === pack.id && styles.filterTabTextActive]}>
               {pack.emoji} {pack.name}
             </Text>
           </Pressable>
@@ -92,62 +76,21 @@ export default function CollectionScreen() {
 
       {/* Progress bar */}
       <View style={styles.progressBar}>
-        <View
-          style={[
-            styles.progressFill,
-            {
-              width:
-                visibleCards.length > 0
-                  ? `${(collectedInFilter / visibleCards.length) * 100}%`
-                  : "0%",
-            },
-          ]}
-        />
+        <View style={[styles.progressFill, { width: progressPct as any }]} />
       </View>
 
       {/* Card grid */}
-      <ScrollView contentContainerStyle={styles.grid}>
+      <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
         {visibleCards.map((card) => {
           const isCollected = !!collection[card.id];
-          const rarity = RARITY_CONFIG[card.rarity];
+          const entry = collection[card.id] ?? null;
 
-          return (
-            <Pressable
-              key={card.id}
-              style={[
-                styles.thumb,
-                isCollected
-                  ? { borderColor: rarity.color }
-                  : { borderColor: colors.border },
-              ]}
-              onPress={() => {
-                if (isCollected) router.push(`/card/${card.id}`);
-              }}
-            >
-              {isCollected ? (
-                <View style={styles.thumbContent}>
-                  {card.image && CARD_IMAGES[card.image] ? (
-                    <Image
-                      source={CARD_IMAGES[card.image]}
-                      style={styles.thumbImage}
-                      contentFit="cover"
-                    />
-                  ) : null}
-                  <View style={styles.thumbOverlay}>
-                    <Text style={styles.thumbTitle} numberOfLines={1}>
-                      {card.title}
-                    </Text>
-                    <Text style={[styles.thumbRarity, { color: rarity.color }]}>
-                      {rarity.symbol}
-                    </Text>
-                  </View>
-                </View>
-              ) : (
-                <View style={styles.thumbLocked}>
-                  <Text style={styles.lockedIcon}>?</Text>
-                </View>
-              )}
+          return isCollected ? (
+            <Pressable key={card.id} onPress={() => router.push(`/card/${card.id}`)}>
+              <Card card={card} entry={entry} width={CARD_WIDTH} />
             </Pressable>
+          ) : (
+            <CardBack key={card.id} width={CARD_WIDTH} />
           );
         })}
       </ScrollView>
@@ -164,7 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: spacing.lg,
+    paddingHorizontal: H_PAD,
     marginBottom: spacing.sm,
   },
   backButton: {
@@ -182,10 +125,9 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     color: colors.textMuted,
   },
-  // Filters
   filterRow: {
-    paddingHorizontal: spacing.lg,
-    gap: spacing.sm,
+    paddingHorizontal: H_PAD,
+    gap: GAP,
     paddingVertical: spacing.sm,
   },
   filterTab: {
@@ -208,12 +150,11 @@ const styles = StyleSheet.create({
   filterTabTextActive: {
     color: colors.accent,
   },
-  // Progress bar
   progressBar: {
     height: 4,
     backgroundColor: colors.surface,
-    marginHorizontal: spacing.lg,
-    marginVertical: spacing.sm,
+    marginHorizontal: H_PAD,
+    marginBottom: spacing.sm,
     borderRadius: 2,
     overflow: "hidden",
   },
@@ -222,59 +163,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accent,
     borderRadius: 2,
   },
-  // Grid
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: spacing.lg,
-    gap: spacing.sm,
+    paddingHorizontal: H_PAD,
+    gap: GAP,
     paddingBottom: spacing.xxl,
-  },
-  thumb: {
-    width: THUMB_SIZE,
-    height: THUMB_SIZE * 1.3,
-    backgroundColor: colors.surface,
-    borderRadius: borderRadius.sm,
-    borderWidth: 1,
-    overflow: "hidden",
-  },
-  thumbContent: {
-    flex: 1,
-    overflow: "hidden",
-  },
-  thumbImage: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-  },
-  thumbOverlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "rgba(0,0,0,0.55)",
-    padding: spacing.xs,
-    alignItems: "center",
-  },
-  thumbTitle: {
-    fontFamily: fonts.medium,
-    fontSize: 10,
-    color: colors.text,
-    textAlign: "center",
-  },
-  thumbRarity: {
-    fontSize: fontSizes.xs,
-    marginTop: 1,
-  },
-  thumbLocked: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.surface,
-  },
-  lockedIcon: {
-    fontFamily: fonts.bold,
-    fontSize: fontSizes.xl,
-    color: colors.border,
   },
 });

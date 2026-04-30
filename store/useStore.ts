@@ -28,6 +28,7 @@ interface AppState {
   setFavorite: (slot: 0 | 1 | 2, cardId: string | null) => void;
   consumePack: () => void;
   refreshPacks: () => void;
+  grantPacks: (n: number) => void;
 }
 
 // Time-gate config
@@ -107,6 +108,13 @@ export const useStore = create<AppState>()(
           packsAvailable: Math.max(0, state.packsAvailable - 1),
           lastPackTime: Date.now(),
           totalPacksOpened: state.totalPacksOpened + 1,
+        }));
+      },
+
+      grantPacks: (n: number) => {
+        set((state) => ({
+          packsAvailable: Math.min(MAX_PACKS, state.packsAvailable + n),
+          lastPackTime: 0,
         }));
       },
 
