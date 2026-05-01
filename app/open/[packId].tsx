@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState } from "react";
+import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import {
   View,
   Text,
@@ -22,17 +22,18 @@ import Animated, {
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
-import { colors } from "../../theme/colors";
 import { fonts, displayFonts, fontSizes } from "../../theme/typography";
 import { spacing, borderRadius } from "../../theme/spacing";
 import { openPack } from "../../services/packService";
 import { useStore } from "../../store/useStore";
+import { useTheme } from "../../hooks/useTheme";
 import { PACKS } from "../../data/packs";
 import { RARITY_CONFIG } from "../../data/rarities";
 import { PackOpenResult } from "../../types";
 import Card from "../../components/Card";
 import CardBack from "../../components/CardBack";
 import PackCover from "../../components/PackCover";
+import type { UIColors } from "../../theme/colors";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -40,10 +41,10 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const CAROUSEL_PACK_WIDTH  = SCREEN_WIDTH * 0.42;
 const CAROUSEL_PACK_HEIGHT = CAROUSEL_PACK_WIDTH * 1.8;
 const CAROUSEL_GAP         = spacing.md;
-const CAROUSEL_COUNT       = 30;                              // packs per logical cycle
-const CAROUSEL_COPIES      = 3;                              // render 3 identical cycles
-const ITEM_W               = CAROUSEL_PACK_WIDTH + CAROUSEL_GAP; // effective width per item
-const CYCLE_W              = ITEM_W * CAROUSEL_COUNT;        // pixel width of one cycle
+const CAROUSEL_COUNT       = 30;
+const CAROUSEL_COPIES      = 3;
+const ITEM_W               = CAROUSEL_PACK_WIDTH + CAROUSEL_GAP;
+const CYCLE_W              = ITEM_W * CAROUSEL_COUNT;
 
 // Sealed / rip
 const PACK_WIDTH  = SCREEN_WIDTH * 0.58;
@@ -162,8 +163,25 @@ export default function PackOpenScreen() {
   const { packId } = useLocalSearchParams<{ packId: string }>();
   const router     = useRouter();
   const insets     = useSafeAreaInsets();
-  const { collection, addPull, consumePack } = useStore();
+  const th         = useTheme();
+  const { collection, addPull, consumePack, hapticsEnabled, revealSpeed } = useStore();
   const pack = PACKS.find((p) => p.id === packId);
+
+  const s = useMemo(() => createStyles(th), [th]);
+
+  // Animation duration multiplier for slow mode
+  const slow = revealSpeed === "slow";
+  const ripDur    = slow ? 650 : 400;
+  const ripDelay  = slow ? 780 : 480;
+  const swipeDur  = slow ? 440 : 260;
+  const springStiffness = slow ? 65 : 110;
+
+  const haptic = useCallback(
+    (fn: () => void) => {
+      if (hapticsEnabled) fn();
+    },
+    [hapticsEnabled],
+  );
 
   const [phase,         setPhase]         = useState<Phase>("carousel");
   const [results,       setResults]       = useState<PackOpenResult[]>([]);
@@ -174,17 +192,13 @@ export default function PackOpenScreen() {
   const carouselRef     = useRef<ScrollView>(null);
   const carouselOpacity = useSharedValue(1);
 
-  // Start in the middle of the centre copy so the user can spin either direction.
-  // We use CYCLE_W * 1.5 which centres an item halfway through copy 2 (0-indexed).
   useEffect(() => {
     carouselRef.current?.scrollTo({ x: CYCLE_W * 1.5, animated: false });
   }, []);
 
-  // When scroll stops, silently snap back to the equivalent position inside copy 2
-  // (the middle copy). Since all copies look identical the jump is invisible.
   const normalizeScroll = useCallback((x: number) => {
     const posInCycle = x % CYCLE_W;
-    const target = CYCLE_W + posInCycle; // equivalent position in copy 2
+    const target = CYCLE_W + posInCycle;
     if (Math.abs(x - target) > 2) {
       carouselRef.current?.scrollTo({ x: target, animated: false });
     }
@@ -192,21 +206,21 @@ export default function PackOpenScreen() {
 
   const selectPack = useCallback(() => {
     if (phase !== "carousel") return;
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    haptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium));
     carouselOpacity.value = withTiming(0, { duration: 200 }, () => {
       runOnJS(setPhase)("sealed");
     });
-  }, [phase]);
+  }, [phase, haptic]);
 
   // ── Rip animation ─────────────────────────────────────────────────────────
   const packTilt      = useSharedValue(0);
-  const stripY        = useSharedValue(0);   // top 10% strip
+  const stripY        = useSharedValue(0);
   const stripRot      = useSharedValue(0);
-  const bodyY         = useSharedValue(0);   // bottom 90% body
+  const bodyY         = useSharedValue(0);
   const bodyRot       = useSharedValue(0);
   const flashOpacity  = useSharedValue(0);
 
-  // ── Card swipe (advance to next) ──────────────────────────────────────────
+  // ── Card swipe ────────────────────────────────────────────────────────────
   const swipeX   = useSharedValue(0);
   const swipeY   = useSharedValue(0);
   const swipeRot = useSharedValue(0);
@@ -230,13 +244,11 @@ export default function PackOpenScreen() {
   useEffect(() => {
     if (phase !== "viewing" || results.length === 0) return;
 
-    // Spring card in
     entranceScale.value = 0.85;
     entranceY.value     = 28;
-    entranceScale.value = withSpring(1,  { damping: 14, stiffness: 110 });
-    entranceY.value     = withSpring(0,  { damping: 14, stiffness: 110 });
+    entranceScale.value = withSpring(1, { damping: 14, stiffness: springStiffness });
+    entranceY.value     = withSpring(0, { damping: 14, stiffness: springStiffness });
 
-    // Rare effects
     const card = results[revealIndex];
     if (card.card.rarity === "epic" || card.card.rarity === "legendary") {
       glowOpacity.value = withSequence(
@@ -245,36 +257,33 @@ export default function PackOpenScreen() {
       );
       setTimeout(() => setSparkleActive(true),  140);
       setTimeout(() => setSparkleActive(false), 900);
-
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      haptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success));
     } else if (card.card.rarity === "milestone") {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      haptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium));
     } else {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      haptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light));
     }
-  }, [revealIndex, phase]);
+  }, [revealIndex, phase, haptic, springStiffness]);
 
   // ── Trigger the rip ───────────────────────────────────────────────────────
   const triggerRip = useCallback(() => {
     if (phase !== "sealed" || !packId) return;
 
     setPhase("ripping");
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    haptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy));
 
     const pulled = openPack(packId, 5, collection);
     setResults(pulled);
 
-    // Flash
     flashOpacity.value = withSequence(
-      withTiming(1,  { duration: 70 }),
-      withTiming(0,  { duration: 320 }),
+      withTiming(1, { duration: 70 }),
+      withTiming(0, { duration: 320 }),
     );
 
-    // Top strip flies up; body drops slightly then settles
-    stripY.value   = withTiming(-SCREEN_HEIGHT * 0.5, { duration: 400 });
-    stripRot.value = withTiming(-22, { duration: 400 });
-    bodyY.value    = withTiming(SCREEN_HEIGHT * 0.35, { duration: 400 });
-    bodyRot.value  = withTiming(6, { duration: 400 });
+    stripY.value   = withTiming(-SCREEN_HEIGHT * 0.5, { duration: ripDur });
+    stripRot.value = withTiming(-22, { duration: ripDur });
+    bodyY.value    = withTiming(SCREEN_HEIGHT * 0.35, { duration: ripDur });
+    bodyRot.value  = withTiming(6, { duration: ripDur });
 
     setTimeout(() => {
       setRevealIndex(0);
@@ -282,10 +291,10 @@ export default function PackOpenScreen() {
       swipeY.value   = 0;
       swipeRot.value = 0;
       setPhase("viewing");
-    }, 480);
-  }, [phase, packId, collection]);
+    }, ripDelay);
+  }, [phase, packId, collection, haptic, ripDur, ripDelay]);
 
-  // ── Rip gesture (horizontal pan on pack) ─────────────────────────────────
+  // ── Rip gesture ───────────────────────────────────────────────────────────
   const ripGesture = Gesture.Pan()
     .onUpdate((e) => {
       packTilt.value = Math.max(-1, Math.min(1, e.translationX / (PACK_WIDTH * 0.5)));
@@ -316,7 +325,7 @@ export default function PackOpenScreen() {
     }
   }, [revealIndex, results]);
 
-  // ── Card view gesture: slow drag = subtle follow, fast swipe = advance ─────
+  // ── Card view gesture ─────────────────────────────────────────────────────
   const viewGesture = Gesture.Pan()
     .onUpdate((e) => {
       swipeX.value   = e.translationX * 0.07;
@@ -339,9 +348,9 @@ export default function PackOpenScreen() {
           ? (e.velocityY > 0 ? SCREEN_HEIGHT : -SCREEN_HEIGHT)
           : -SCREEN_HEIGHT * 0.3;
 
-        swipeX.value   = withTiming(targetX, { duration: 260 }, () => runOnJS(advanceCard)());
-        swipeY.value   = withTiming(targetY, { duration: 260 });
-        swipeRot.value = withTiming(e.translationX * 0.18, { duration: 260 });
+        swipeX.value   = withTiming(targetX, { duration: swipeDur }, () => runOnJS(advanceCard)());
+        swipeY.value   = withTiming(targetY, { duration: swipeDur });
+        swipeRot.value = withTiming(e.translationX * 0.18, { duration: swipeDur });
       } else {
         swipeX.value   = withSpring(0);
         swipeY.value   = withSpring(0);
@@ -362,9 +371,8 @@ export default function PackOpenScreen() {
     transform: [{ translateY: bodyY.value }, { rotate: `${bodyRot.value}deg` }],
   }));
 
-  const flashStyle = useAnimatedStyle(() => ({ opacity: flashOpacity.value }));
-
-  const cardStyle = useAnimatedStyle(() => ({
+  const flashStyle    = useAnimatedStyle(() => ({ opacity: flashOpacity.value }));
+  const cardStyle     = useAnimatedStyle(() => ({
     transform: [
       { translateX: swipeX.value },
       { translateY: swipeY.value + entranceY.value },
@@ -372,9 +380,8 @@ export default function PackOpenScreen() {
       { rotate: `${swipeRot.value}deg` },
     ],
   }));
-
-  const glowStyle      = useAnimatedStyle(() => ({ opacity: glowOpacity.value }));
-  const carouselStyle  = useAnimatedStyle(() => ({ opacity: carouselOpacity.value }));
+  const glowStyle     = useAnimatedStyle(() => ({ opacity: glowOpacity.value }));
+  const carouselStyle = useAnimatedStyle(() => ({ opacity: carouselOpacity.value }));
 
   // ── Derived ───────────────────────────────────────────────────────────────
   const currentCard  = results[revealIndex];
@@ -383,41 +390,41 @@ export default function PackOpenScreen() {
     (currentCard.card.rarity === "epic" || currentCard.card.rarity === "legendary");
   const glowColor = isRareReveal
     ? RARITY_CONFIG[currentCard.card.rarity].color
-    : colors.accent;
+    : "#d4a853";
 
   if (!pack) return null;
 
   return (
-    <View style={styles.container}>
+    <View style={s.container}>
       {/* ── Back button (carousel + done only) ── */}
       {(phase === "carousel" || phase === "done") && (
         <Pressable
-          style={[styles.backButton, { top: insets.top + spacing.sm }]}
+          style={[s.backButton, { top: insets.top + spacing.sm }]}
           onPress={() => router.back()}
         >
-          <Text style={styles.backButtonText}>← Back</Text>
+          <Text style={s.backButtonText}>← Back</Text>
         </Pressable>
       )}
 
       {/* ══════════ CAROUSEL ══════════ */}
       {phase === "carousel" && (
-        <Animated.View style={[styles.carouselContainer, carouselStyle]}>
-          <Text style={[styles.carouselTitle, { marginTop: insets.top + spacing.xxl }]}>
+        <Animated.View style={[s.carouselContainer, carouselStyle]}>
+          <Text style={[s.carouselTitle, { marginTop: insets.top + spacing.xxl }]}>
             Choose a Pack
           </Text>
-          <Text style={styles.carouselSubtitle}>Spin and tap one to open</Text>
+          <Text style={s.carouselSubtitle}>Spin and tap one to open</Text>
 
           <ScrollView
             ref={carouselRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             decelerationRate="normal"
-            contentContainerStyle={styles.carouselContent}
+            contentContainerStyle={s.carouselContent}
             onMomentumScrollEnd={(e) => normalizeScroll(e.nativeEvent.contentOffset.x)}
             onScrollEndDrag={(e) => normalizeScroll(e.nativeEvent.contentOffset.x)}
           >
             {Array.from({ length: CAROUSEL_COUNT * CAROUSEL_COPIES }, (_, i) => (
-              <Pressable key={i} onPress={selectPack} style={styles.carouselItem}>
+              <Pressable key={i} onPress={selectPack} style={s.carouselItem}>
                 <PackCover
                   pack={pack}
                   width={CAROUSEL_PACK_WIDTH}
@@ -431,7 +438,7 @@ export default function PackOpenScreen() {
 
       {/* ══════════ SEALED ══════════ */}
       {phase === "sealed" && (
-        <View style={styles.center}>
+        <View style={s.center}>
           <View style={{ width: PACK_WIDTH, height: PACK_HEIGHT }}>
             {particles.map((p, i) => (
               <Particle key={i} x={p.x} delay={p.delay} />
@@ -442,21 +449,19 @@ export default function PackOpenScreen() {
               </Animated.View>
             </GestureDetector>
           </View>
-          <Text style={[styles.hint, { marginTop: 28 }]}>Swipe to open</Text>
+          <Text style={[s.hint, { marginTop: 28 }]}>Swipe to open</Text>
         </View>
       )}
 
       {/* ══════════ RIPPING ══════════ */}
       {phase === "ripping" && (
-        <View style={styles.center}>
-          {/* Top strip (10%) flies off */}
+        <View style={s.center}>
           <Animated.View style={stripStyle}>
             <View style={{ width: PACK_WIDTH, height: RIP_STRIP, overflow: "hidden" }}>
               <PackCover pack={pack} width={PACK_WIDTH} height={PACK_HEIGHT} />
             </View>
           </Animated.View>
 
-          {/* Body (90%) drops */}
           <Animated.View style={bodyStyle}>
             <View style={{ width: PACK_WIDTH, height: RIP_BODY, overflow: "hidden" }}>
               <View style={{ marginTop: -RIP_STRIP }}>
@@ -469,7 +474,7 @@ export default function PackOpenScreen() {
 
       {/* ══════════ VIEWING ══════════ */}
       {phase === "viewing" && currentCard && (
-        <View style={styles.center}>
+        <View style={s.center}>
           {/* Edge glow for epic / legendary */}
           <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, glowStyle]}>
             <LinearGradient
@@ -488,7 +493,7 @@ export default function PackOpenScreen() {
 
           {/* Peek: next card face-down behind current */}
           {revealIndex + 1 < results.length && (
-            <View style={styles.peekCard}>
+            <View style={s.peekCard}>
               <CardBack width={CARD_WIDTH * 0.95} />
             </View>
           )}
@@ -512,27 +517,27 @@ export default function PackOpenScreen() {
           </GestureDetector>
 
           {/* Progress dots */}
-          <View style={styles.dotsRow}>
+          <View style={s.dotsRow}>
             {results.map((_, i) => (
               <View
                 key={i}
-                style={[styles.dot, i === revealIndex && styles.dotActive]}
+                style={[s.dot, i === revealIndex && s.dotActive]}
               />
             ))}
           </View>
 
-          <Text style={styles.hint}>Swipe to reveal next</Text>
+          <Text style={s.hint}>Swipe to reveal next</Text>
         </View>
       )}
 
       {/* ══════════ DONE ══════════ */}
       {phase === "done" && (
-        <View style={[styles.doneContainer, { paddingTop: insets.top + spacing.xxl }]}>
-          <Text style={styles.doneTitle}>Pack Complete!</Text>
+        <View style={[s.doneContainer, { paddingTop: insets.top + spacing.xxl }]}>
+          <Text style={s.doneTitle}>Pack Complete!</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.doneScroll}
+            contentContainerStyle={s.doneScroll}
           >
             {results.map((result, i) => (
               <Pressable
@@ -548,8 +553,8 @@ export default function PackOpenScreen() {
               </Pressable>
             ))}
           </ScrollView>
-          <Pressable style={styles.continueButton} onPress={() => router.back()}>
-            <Text style={styles.continueButtonText}>Continue</Text>
+          <Pressable style={s.continueButton} onPress={() => router.back()}>
+            <Text style={s.continueButtonText}>Continue</Text>
           </Pressable>
         </View>
       )}
@@ -563,112 +568,112 @@ export default function PackOpenScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.bg,
-  },
-  center: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  backButton: {
-    position: "absolute",
-    left: spacing.lg,
-    zIndex: 10,
-  },
-  backButtonText: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.md,
-    color: colors.accent,
-  },
-  hint: {
-    fontFamily: fonts.regular,
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-    marginTop: spacing.md,
-  },
-  // Carousel phase
-  carouselContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  carouselTitle: {
-    fontFamily: displayFonts.bold,
-    fontSize: fontSizes.xl,
-    color: colors.text,
-    marginBottom: spacing.xs,
-  },
-  carouselSubtitle: {
-    fontFamily: fonts.regular,
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-    marginBottom: spacing.xl,
-  },
-  carouselContent: {
-    // paddingHorizontal centres the first/last item; no gap here — marginRight on items
-    // keeps each item's effective footprint exactly ITEM_W pixels for loop math.
-    paddingHorizontal: (SCREEN_WIDTH - CAROUSEL_PACK_WIDTH) / 2,
-    alignItems: "center",
-  },
-  carouselItem: {
-    marginRight: CAROUSEL_GAP,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  // Viewing phase
-  peekCard: {
-    position: "absolute",
-    transform: [{ translateY: 14 }, { scale: 0.95 }],
-    opacity: 0.7,
-  },
-  dotsRow: {
-    flexDirection: "row",
-    gap: 8,
-    marginTop: spacing.lg,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.border,
-  },
-  dotActive: {
-    backgroundColor: colors.accent,
-    width: 18,
-    borderRadius: 3,
-  },
-  // Done phase
-  doneContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  doneTitle: {
-    fontFamily: displayFonts.bold,
-    fontSize: fontSizes.xl,
-    color: colors.text,
-    marginBottom: spacing.lg,
-  },
-  doneScroll: {
-    paddingHorizontal: spacing.lg,
-    gap: spacing.sm,
-    paddingVertical: spacing.md,
-    alignItems: "center",
-  },
-  continueButton: {
-    marginTop: spacing.lg,
-    backgroundColor: colors.accent,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xxl,
-    borderRadius: borderRadius.md,
-  },
-  continueButtonText: {
-    fontFamily: fonts.semiBold,
-    fontSize: fontSizes.md,
-    color: colors.bg,
-  },
-});
+function createStyles(th: UIColors) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: th.bg,
+    },
+    center: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    backButton: {
+      position: "absolute",
+      left: spacing.lg,
+      zIndex: 10,
+    },
+    backButtonText: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.md,
+      color: th.accent,
+    },
+    hint: {
+      fontFamily: fonts.regular,
+      fontSize: fontSizes.sm,
+      color: th.textMuted,
+      marginTop: spacing.md,
+    },
+    // Carousel phase
+    carouselContainer: {
+      flex: 1,
+      alignItems: "center",
+    },
+    carouselTitle: {
+      fontFamily: displayFonts.bold,
+      fontSize: fontSizes.xl,
+      color: th.text,
+      marginBottom: spacing.xs,
+    },
+    carouselSubtitle: {
+      fontFamily: fonts.regular,
+      fontSize: fontSizes.sm,
+      color: th.textMuted,
+      marginBottom: spacing.xl,
+    },
+    carouselContent: {
+      paddingHorizontal: (SCREEN_WIDTH - CAROUSEL_PACK_WIDTH) / 2,
+      alignItems: "center",
+    },
+    carouselItem: {
+      marginRight: CAROUSEL_GAP,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.35,
+      shadowRadius: 8,
+      elevation: 6,
+    },
+    // Viewing phase
+    peekCard: {
+      position: "absolute",
+      transform: [{ translateY: 14 }, { scale: 0.95 }],
+      opacity: 0.7,
+    },
+    dotsRow: {
+      flexDirection: "row",
+      gap: 8,
+      marginTop: spacing.lg,
+    },
+    dot: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: th.border,
+    },
+    dotActive: {
+      backgroundColor: th.accent,
+      width: 18,
+      borderRadius: 3,
+    },
+    // Done phase
+    doneContainer: {
+      flex: 1,
+      alignItems: "center",
+    },
+    doneTitle: {
+      fontFamily: displayFonts.bold,
+      fontSize: fontSizes.xl,
+      color: th.text,
+      marginBottom: spacing.lg,
+    },
+    doneScroll: {
+      paddingHorizontal: spacing.lg,
+      gap: spacing.sm,
+      paddingVertical: spacing.md,
+      alignItems: "center",
+    },
+    continueButton: {
+      marginTop: spacing.lg,
+      backgroundColor: th.accent,
+      paddingVertical: spacing.md,
+      paddingHorizontal: spacing.xxl,
+      borderRadius: borderRadius.md,
+    },
+    continueButtonText: {
+      fontFamily: fonts.semiBold,
+      fontSize: fontSizes.md,
+      color: th.bg,
+    },
+  });
+}

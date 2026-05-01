@@ -21,6 +21,11 @@ interface AppState {
   lastPackTime: number; // timestamp in ms
   totalPacksOpened: number;
 
+  // Settings
+  theme: "light" | "dark";
+  hapticsEnabled: boolean;
+  revealSpeed: "normal" | "slow";
+
   // Actions
   addPull: (cardId: string) => void;
   unlockCosmetic: (cardId: string, tier: number) => void;
@@ -29,6 +34,9 @@ interface AppState {
   consumePack: () => void;
   refreshPacks: () => void;
   grantPacks: (n: number) => void;
+  setTheme: (theme: "light" | "dark") => void;
+  setHapticsEnabled: (enabled: boolean) => void;
+  setRevealSpeed: (speed: "normal" | "slow") => void;
 }
 
 // Time-gate config
@@ -44,6 +52,10 @@ export const useStore = create<AppState>()(
       packsAvailable: INITIAL_PACKS,
       lastPackTime: 0,
       totalPacksOpened: 0,
+
+      theme: "light",
+      hapticsEnabled: true,
+      revealSpeed: "normal",
 
       addPull: (cardId: string) => {
         set((state) => {
@@ -133,6 +145,10 @@ export const useStore = create<AppState>()(
           };
         });
       },
+
+      setTheme: (theme) => set({ theme }),
+      setHapticsEnabled: (enabled) => set({ hapticsEnabled: enabled }),
+      setRevealSpeed: (speed) => set({ revealSpeed: speed }),
     }),
     {
       name: "memormon-storage",

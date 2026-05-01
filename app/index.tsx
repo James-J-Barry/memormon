@@ -1,19 +1,22 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useEffect } from "react";
-import { colors } from "../theme/colors";
+import { useEffect, useState, useMemo } from "react";
 import { fonts, fontSizes } from "../theme/typography";
 import { spacing } from "../theme/spacing";
 import { useStore } from "../store/useStore";
+import { useTheme } from "../hooks/useTheme";
 import { CARDS } from "../data/cards";
 import { msUntilNextPack, formatCountdown } from "../services/timerService";
-import { useState } from "react";
+import type { UIColors } from "../theme/colors";
 
 export default function HomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const th = useTheme();
   const { collection, packsAvailable, lastPackTime, refreshPacks, grantPacks } = useStore();
+
+  const s = useMemo(() => createStyles(th), [th]);
 
   // Refresh packs on mount
   useEffect(() => {
@@ -37,127 +40,144 @@ export default function HomeScreen() {
   const hasPacksReady = packsAvailable > 0;
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top + spacing.lg }]}>
+    <View style={[s.container, { paddingTop: insets.top + spacing.lg }]}>
+      {/* Settings button */}
+      <Pressable style={s.settingsButton} onPress={() => router.push("/settings")}>
+        <Text style={s.settingsIcon}>⚙</Text>
+      </Pressable>
+
       {/* Title */}
-      <Text style={styles.title}>Memormon</Text>
-      <Text style={styles.subtitle}>A love story in cards</Text>
+      <Text style={s.title}>Memormon</Text>
+      <Text style={s.subtitle}>A love story in cards</Text>
 
       {/* Collection progress */}
-      <View style={styles.progressBox}>
-        <Text style={styles.progressText}>
+      <View style={s.progressBox}>
+        <Text style={s.progressText}>
           {collectedCount} / {totalCards} memories discovered
         </Text>
       </View>
 
       {/* Pack status — long press to grant a pack (dev shortcut) */}
-      <Pressable style={styles.packStatus} onLongPress={() => grantPacks(2)}>
+      <Pressable style={s.packStatus} onLongPress={() => grantPacks(2)}>
         {hasPacksReady ? (
-          <Text style={styles.packsReady}>
+          <Text style={s.packsReady}>
             {packsAvailable} pack{packsAvailable !== 1 ? "s" : ""} ready!
           </Text>
         ) : (
-          <Text style={styles.countdownText}>
+          <Text style={s.countdownText}>
             Next pack in {countdown}
           </Text>
         )}
       </Pressable>
 
       {/* Navigation buttons */}
-      <View style={styles.buttons}>
+      <View style={s.buttons}>
         <Pressable
-          style={[styles.button, hasPacksReady && styles.buttonGlow]}
+          style={[s.button, hasPacksReady && s.buttonGlow]}
           onPress={() => router.push("/packs")}
         >
-          <Text style={styles.buttonText}>Open Packs</Text>
+          <Text style={s.buttonText}>Open Packs</Text>
         </Pressable>
 
         <Pressable
-          style={styles.button}
+          style={s.button}
           onPress={() => router.push("/collection")}
         >
-          <Text style={styles.buttonText}>Collection</Text>
+          <Text style={s.buttonText}>Collection</Text>
         </Pressable>
 
         <Pressable
-          style={styles.button}
+          style={s.button}
           onPress={() => router.push("/timeline")}
         >
-          <Text style={styles.buttonText}>Timeline</Text>
+          <Text style={s.buttonText}>Timeline</Text>
         </Pressable>
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.bg,
-    alignItems: "center",
-    paddingHorizontal: spacing.lg,
-  },
-  title: {
-    fontFamily: fonts.bold,
-    fontSize: fontSizes.xxl,
-    color: colors.text,
-    marginTop: spacing.xxl,
-  },
-  subtitle: {
-    fontFamily: fonts.regular,
-    fontSize: fontSizes.md,
-    color: colors.textMuted,
-    marginTop: spacing.xs,
-  },
-  progressBox: {
-    marginTop: spacing.xl,
-    backgroundColor: colors.surface,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  progressText: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.md,
-    color: colors.text,
-  },
-  packStatus: {
-    marginTop: spacing.lg,
-  },
-  packsReady: {
-    fontFamily: fonts.semiBold,
-    fontSize: fontSizes.lg,
-    color: colors.accent,
-  },
-  countdownText: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.md,
-    color: colors.textMuted,
-  },
-  buttons: {
-    marginTop: spacing.xxl,
-    width: "100%",
-    gap: spacing.md,
-  },
-  button: {
-    backgroundColor: colors.surface,
-    paddingVertical: spacing.md,
-    borderRadius: 12,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  buttonGlow: {
-    borderColor: colors.accent,
-    shadowColor: colors.accent,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-  },
-  buttonText: {
-    fontFamily: fonts.semiBold,
-    fontSize: fontSizes.md,
-    color: colors.text,
-  },
-});
+function createStyles(th: UIColors) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: th.bg,
+      alignItems: "center",
+      paddingHorizontal: spacing.lg,
+    },
+    settingsButton: {
+      position: "absolute",
+      top: 0,
+      right: spacing.lg,
+      padding: spacing.sm,
+    },
+    settingsIcon: {
+      fontSize: fontSizes.lg,
+      color: th.textMuted,
+    },
+    title: {
+      fontFamily: fonts.bold,
+      fontSize: fontSizes.xxl,
+      color: th.text,
+      marginTop: spacing.xxl,
+    },
+    subtitle: {
+      fontFamily: fonts.regular,
+      fontSize: fontSizes.md,
+      color: th.textMuted,
+      marginTop: spacing.xs,
+    },
+    progressBox: {
+      marginTop: spacing.xl,
+      backgroundColor: th.surface,
+      paddingVertical: spacing.md,
+      paddingHorizontal: spacing.lg,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: th.border,
+    },
+    progressText: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.md,
+      color: th.text,
+    },
+    packStatus: {
+      marginTop: spacing.lg,
+    },
+    packsReady: {
+      fontFamily: fonts.semiBold,
+      fontSize: fontSizes.lg,
+      color: th.accent,
+    },
+    countdownText: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.md,
+      color: th.textMuted,
+    },
+    buttons: {
+      marginTop: spacing.xxl,
+      width: "100%",
+      gap: spacing.md,
+    },
+    button: {
+      backgroundColor: th.surface,
+      paddingVertical: spacing.md,
+      borderRadius: 12,
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: th.border,
+    },
+    buttonGlow: {
+      borderColor: th.accent,
+      shadowColor: th.accent,
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.4,
+      shadowRadius: 12,
+    },
+    buttonText: {
+      fontFamily: fonts.semiBold,
+      fontSize: fontSizes.md,
+      color: th.text,
+    },
+  });
+}

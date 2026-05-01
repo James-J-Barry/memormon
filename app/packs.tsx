@@ -1,13 +1,15 @@
 import { View, Text, StyleSheet, Pressable, ScrollView, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colors } from "../theme/colors";
+import { useMemo } from "react";
 import { fonts, fontSizes } from "../theme/typography";
 import { spacing } from "../theme/spacing";
 import { PACKS } from "../data/packs";
 import { CARDS } from "../data/cards";
 import { useStore } from "../store/useStore";
+import { useTheme } from "../hooks/useTheme";
 import PackCover from "../components/PackCover";
+import type { UIColors } from "../theme/colors";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const PACK_WIDTH = SCREEN_WIDTH * 0.65;
@@ -16,17 +18,19 @@ const PACK_HEIGHT = PACK_WIDTH * 1.72;
 export default function PackSelectionScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const th = useTheme();
   const { packsAvailable, collection } = useStore();
+  const s = useMemo(() => createStyles(th), [th]);
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top + spacing.md }]}>
+    <View style={[s.container, { paddingTop: insets.top + spacing.md }]}>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={s.header}>
         <Pressable onPress={() => router.back()}>
-          <Text style={styles.backButton}>← Back</Text>
+          <Text style={s.backButton}>← Back</Text>
         </Pressable>
-        <Text style={styles.headerTitle}>Choose a Pack</Text>
-        <Text style={styles.packCount}>{packsAvailable} available</Text>
+        <Text style={s.headerTitle}>Choose a Pack</Text>
+        <Text style={s.packCount}>{packsAvailable} available</Text>
       </View>
 
       {/* Pack carousel */}
@@ -34,7 +38,7 @@ export default function PackSelectionScreen() {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.carousel}
+        contentContainerStyle={s.carousel}
         decelerationRate="fast"
         snapToInterval={PACK_WIDTH + spacing.md}
       >
@@ -47,21 +51,19 @@ export default function PackSelectionScreen() {
           return (
             <Pressable
               key={pack.id}
-              style={[styles.packWrapper, !canOpen && styles.packWrapperDisabled]}
+              style={[s.packWrapper, !canOpen && s.packWrapperDisabled]}
               onPress={() => {
                 if (canOpen) router.push(`/open/${pack.id}`);
               }}
             >
               <PackCover pack={pack} width={PACK_WIDTH} height={PACK_HEIGHT} />
 
-              {/* Progress below pack */}
-              <Text style={styles.progress}>
+              <Text style={s.progress}>
                 {collected} / {total} collected
               </Text>
 
-              {/* Overlay when no packs available */}
               {!canOpen && (
-                <View style={[styles.lockedOverlay, { width: PACK_WIDTH, height: PACK_HEIGHT }]} />
+                <View style={[s.lockedOverlay, { width: PACK_WIDTH, height: PACK_HEIGHT }]} />
               )}
             </Pressable>
           );
@@ -69,69 +71,71 @@ export default function PackSelectionScreen() {
       </ScrollView>
 
       {packsAvailable === 0 && (
-        <Text style={styles.noPacksText}>No packs available right now</Text>
+        <Text style={s.noPacksText}>No packs available right now</Text>
       )}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.bg,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: spacing.lg,
-    marginBottom: spacing.lg,
-  },
-  backButton: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.md,
-    color: colors.accent,
-  },
-  headerTitle: {
-    fontFamily: fonts.semiBold,
-    fontSize: fontSizes.lg,
-    color: colors.text,
-  },
-  packCount: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-  },
-  carousel: {
-    paddingHorizontal: (SCREEN_WIDTH - PACK_WIDTH) / 2,
-    alignItems: "center",
-    paddingVertical: spacing.xl,
-  },
-  packWrapper: {
-    width: PACK_WIDTH,
-    marginRight: spacing.md,
-    alignItems: "center",
-  },
-  packWrapperDisabled: {
-    opacity: 0.5,
-  },
-  progress: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-    marginTop: spacing.sm,
-  },
-  lockedOverlay: {
-    position: "absolute",
-    top: 0,
-    borderRadius: PACK_WIDTH * 0.06,
-    backgroundColor: "rgba(13,11,18,0.45)",
-  },
-  noPacksText: {
-    fontFamily: fonts.medium,
-    fontSize: fontSizes.md,
-    color: colors.textMuted,
-    textAlign: "center",
-    marginTop: spacing.lg,
-  },
-});
+function createStyles(th: UIColors) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: th.bg,
+    },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: spacing.lg,
+      marginBottom: spacing.lg,
+    },
+    backButton: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.md,
+      color: th.accent,
+    },
+    headerTitle: {
+      fontFamily: fonts.semiBold,
+      fontSize: fontSizes.lg,
+      color: th.text,
+    },
+    packCount: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.sm,
+      color: th.textMuted,
+    },
+    carousel: {
+      paddingHorizontal: (SCREEN_WIDTH - PACK_WIDTH) / 2,
+      alignItems: "center",
+      paddingVertical: spacing.xl,
+    },
+    packWrapper: {
+      width: PACK_WIDTH,
+      marginRight: spacing.md,
+      alignItems: "center",
+    },
+    packWrapperDisabled: {
+      opacity: 0.5,
+    },
+    progress: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.sm,
+      color: th.textMuted,
+      marginTop: spacing.sm,
+    },
+    lockedOverlay: {
+      position: "absolute",
+      top: 0,
+      borderRadius: PACK_WIDTH * 0.06,
+      backgroundColor: "rgba(13,11,18,0.45)",
+    },
+    noPacksText: {
+      fontFamily: fonts.medium,
+      fontSize: fontSizes.md,
+      color: th.textMuted,
+      textAlign: "center",
+      marginTop: spacing.lg,
+    },
+  });
+}

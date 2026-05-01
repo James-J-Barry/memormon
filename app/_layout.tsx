@@ -14,7 +14,8 @@ import {
   PlayfairDisplay_400Regular_Italic,
   PlayfairDisplay_700Bold,
 } from "@expo-google-fonts/playfair-display";
-import { colors } from "../theme/colors";
+import { useTheme } from "../hooks/useTheme";
+import { useStore } from "../store/useStore";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -27,16 +28,18 @@ export default function RootLayout() {
     PlayfairDisplay_700Bold,
   });
 
-  // Wait for fonts before rendering
+  const th = useTheme();
+  const theme = useStore((s) => s.theme);
+
   if (!fontsLoaded) return null;
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <StatusBar style="light" />
+    <GestureHandlerRootView style={[styles.container, { backgroundColor: th.bg }]}>
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: colors.bg },
+          contentStyle: { backgroundColor: th.bg },
           animation: "slide_from_right",
         }}
       />
@@ -47,6 +50,5 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.bg,
   },
 });
