@@ -23,6 +23,20 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a482b24f-a262-486b-842e-bf47a522f8cc"
+      }
+    },
+    "owner": "james-j-barry",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a482b24f-a262-486b-842e-bf47a522f8cc"
+    },
+    "android": {}
   }
 }
