@@ -8,6 +8,7 @@ import { useStore } from "../store/useStore";
 import { useTheme } from "../hooks/useTheme";
 import { CARDS } from "../data/cards";
 import { msUntilNextPack, formatCountdown } from "../services/timerService";
+import BackgroundParticles from "../components/BackgroundParticles";
 import type { UIColors } from "../theme/colors";
 
 export default function HomeScreen() {
@@ -18,12 +19,8 @@ export default function HomeScreen() {
 
   const s = useMemo(() => createStyles(th), [th]);
 
-  // Refresh packs on mount
-  useEffect(() => {
-    refreshPacks();
-  }, []);
+  useEffect(() => { refreshPacks(); }, []);
 
-  // Countdown timer
   const [countdown, setCountdown] = useState("");
   useEffect(() => {
     const tick = () => {
@@ -41,10 +38,7 @@ export default function HomeScreen() {
 
   return (
     <View style={[s.container, { paddingTop: insets.top + spacing.lg }]}>
-      {/* Settings button */}
-      <Pressable style={s.settingsButton} onPress={() => router.push("/settings")}>
-        <Text style={s.settingsIcon}>⚙</Text>
-      </Pressable>
+      <BackgroundParticles />
 
       {/* Title */}
       <Text style={s.title}>Memormon</Text>
@@ -57,16 +51,14 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-      {/* Pack status — long press to grant a pack (dev shortcut) */}
+      {/* Pack status — long press to grant packs */}
       <Pressable style={s.packStatus} onLongPress={() => grantPacks(2)}>
         {hasPacksReady ? (
           <Text style={s.packsReady}>
             {packsAvailable} pack{packsAvailable !== 1 ? "s" : ""} ready!
           </Text>
         ) : (
-          <Text style={s.countdownText}>
-            Next pack in {countdown}
-          </Text>
+          <Text style={s.countdownText}>Next pack in {countdown}</Text>
         )}
       </Pressable>
 
@@ -79,18 +71,16 @@ export default function HomeScreen() {
           <Text style={s.buttonText}>Open Packs</Text>
         </Pressable>
 
-        <Pressable
-          style={s.button}
-          onPress={() => router.push("/collection")}
-        >
+        <Pressable style={s.button} onPress={() => router.push("/collection")}>
           <Text style={s.buttonText}>Collection</Text>
         </Pressable>
 
-        <Pressable
-          style={s.button}
-          onPress={() => router.push("/timeline")}
-        >
+        <Pressable style={s.button} onPress={() => router.push("/timeline")}>
           <Text style={s.buttonText}>Timeline</Text>
+        </Pressable>
+
+        <Pressable style={s.button} onPress={() => router.push("/settings")}>
+          <Text style={[s.buttonText, s.settingsText]}>Settings</Text>
         </Pressable>
       </View>
     </View>
@@ -104,16 +94,6 @@ function createStyles(th: UIColors) {
       backgroundColor: th.bg,
       alignItems: "center",
       paddingHorizontal: spacing.lg,
-    },
-    settingsButton: {
-      position: "absolute",
-      top: 0,
-      right: spacing.lg,
-      padding: spacing.sm,
-    },
-    settingsIcon: {
-      fontSize: fontSizes.lg,
-      color: th.textMuted,
     },
     title: {
       fontFamily: fonts.bold,
@@ -132,9 +112,11 @@ function createStyles(th: UIColors) {
       backgroundColor: th.surface,
       paddingVertical: spacing.md,
       paddingHorizontal: spacing.lg,
-      borderRadius: 12,
+      borderRadius: 8,
       borderWidth: 1,
       borderColor: th.border,
+      borderBottomWidth: 3,
+      borderBottomColor: "rgba(0,0,0,0.18)",
     },
     progressText: {
       fontFamily: fonts.medium,
@@ -162,22 +144,33 @@ function createStyles(th: UIColors) {
     button: {
       backgroundColor: th.surface,
       paddingVertical: spacing.md,
-      borderRadius: 12,
+      borderRadius: 8,
       alignItems: "center",
       borderWidth: 1,
       borderColor: th.border,
+      borderBottomWidth: 4,
+      borderBottomColor: "rgba(0,0,0,0.22)",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+      elevation: 3,
     },
     buttonGlow: {
       borderColor: th.accent,
+      borderBottomColor: th.accent,
       shadowColor: th.accent,
       shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0.4,
+      shadowOpacity: 0.45,
       shadowRadius: 12,
     },
     buttonText: {
       fontFamily: fonts.semiBold,
       fontSize: fontSizes.md,
       color: th.text,
+    },
+    settingsText: {
+      color: th.textMuted,
     },
   });
 }

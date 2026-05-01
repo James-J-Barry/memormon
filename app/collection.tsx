@@ -6,6 +6,7 @@ import { fonts, fontSizes } from "../theme/typography";
 import { spacing, borderRadius } from "../theme/spacing";
 import { useStore } from "../store/useStore";
 import { useTheme } from "../hooks/useTheme";
+import BackgroundParticles from "../components/BackgroundParticles";
 import { CARDS } from "../data/cards";
 import { PACKS } from "../data/packs";
 import Card from "../components/Card";
@@ -39,6 +40,7 @@ export default function CollectionScreen() {
 
   return (
     <View style={[s.container, { paddingTop: insets.top + spacing.md }]}>
+      <BackgroundParticles />
       {/* Header */}
       <View style={s.header}>
         <Pressable onPress={() => router.back()}>

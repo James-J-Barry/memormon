@@ -6,6 +6,7 @@ import { fonts, fontSizes } from "../theme/typography";
 import { spacing, borderRadius } from "../theme/spacing";
 import { useStore } from "../store/useStore";
 import { useTheme } from "../hooks/useTheme";
+import BackgroundParticles from "../components/BackgroundParticles";
 import type { UIColors } from "../theme/colors";
 
 export default function SettingsScreen() {
@@ -25,11 +26,12 @@ export default function SettingsScreen() {
   const s = useMemo(() => createStyles(th), [th]);
 
   return (
-    <ScrollView
-      style={[s.container]}
-      contentContainerStyle={{ paddingTop: insets.top + spacing.md, paddingBottom: spacing.xxl }}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={s.outer}>
+      <BackgroundParticles />
+      <ScrollView
+        contentContainerStyle={{ paddingTop: insets.top + spacing.md, paddingBottom: spacing.xxl }}
+        showsVerticalScrollIndicator={false}
+      >
       {/* Header */}
       <View style={s.header}>
         <Pressable onPress={() => router.back()}>
@@ -129,13 +131,14 @@ export default function SettingsScreen() {
           <Text style={s.aboutHeart}>♡</Text>
         </View>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 function createStyles(th: UIColors) {
   return StyleSheet.create({
-    container: {
+    outer: {
       flex: 1,
       backgroundColor: th.bg,
     },

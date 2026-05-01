@@ -6,6 +6,7 @@ import { fonts, fontSizes } from "../../theme/typography";
 import { spacing, borderRadius } from "../../theme/spacing";
 import { useStore } from "../../store/useStore";
 import { useTheme } from "../../hooks/useTheme";
+import BackgroundParticles from "../../components/BackgroundParticles";
 import { CARDS } from "../../data/cards";
 import { RARITY_CONFIG, COSMETIC_TIERS } from "../../data/rarities";
 import Card from "../../components/Card";
@@ -31,14 +32,16 @@ export default function CardDetailScreen() {
   if (!entry) return null;
 
   return (
-    <ScrollView
-      style={s.container}
-      contentContainerStyle={{
-        paddingTop: insets.top + spacing.md,
-        paddingBottom: spacing.xxl,
-      }}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={s.outer}>
+      <BackgroundParticles />
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          paddingTop: insets.top + spacing.md,
+          paddingBottom: spacing.xxl,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
       {/* Header */}
       <View style={s.header}>
         <Pressable onPress={() => router.back()}>
@@ -112,12 +115,14 @@ export default function CardDetailScreen() {
         </Text>
       </Pressable>
     </ScrollView>
+    </View>
   );
 }
 
 function createStyles(th: UIColors) {
   return StyleSheet.create({
-    container: {
+    outer: {
+      flex: 1,
       backgroundColor: th.bg,
     },
     header: {

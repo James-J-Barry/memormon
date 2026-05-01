@@ -9,6 +9,7 @@ import { CARDS } from "../data/cards";
 import { useStore } from "../store/useStore";
 import { useTheme } from "../hooks/useTheme";
 import PackCover from "../components/PackCover";
+import BackgroundParticles from "../components/BackgroundParticles";
 import type { UIColors } from "../theme/colors";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -24,6 +25,7 @@ export default function PackSelectionScreen() {
 
   return (
     <View style={[s.container, { paddingTop: insets.top + spacing.md }]}>
+      <BackgroundParticles />
       {/* Header */}
       <View style={s.header}>
         <Pressable onPress={() => router.back()}>

@@ -18,6 +18,7 @@
   --border: #2a2a3a;
   --accent: #c9a0dc;
   --danger: #e05555;
+  --warning: #f0a030;
 
   --everyday: #8e8e9a;
   --favorite: #e8a0bf;
@@ -58,6 +59,10 @@ header h1 {
 .header-actions span {
   color: var(--text-muted);
   font-size: 14px;
+}
+
+.zip-btn {
+  background: #1d4ed8;
 }
 
 /* ---- Layout ---- */
@@ -130,6 +135,12 @@ aside#sidebar {
 .pack-item .pack-card-count {
   font-size: 12px;
   color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.draft-pill {
+  color: var(--warning);
+  font-weight: 500;
 }
 
 .pack-item .edit-btn {
@@ -320,6 +331,22 @@ section#content {
   font-weight: 600;
 }
 
+.card-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.draft-count {
+  font-size: 13px;
+  color: var(--warning);
+  font-weight: 500;
+  background: rgba(240, 160, 48, 0.12);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(240, 160, 48, 0.25);
+}
+
 #card-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -339,6 +366,11 @@ section#content {
   border-color: var(--accent);
 }
 
+/* Draft cards (missing date) have a subtle orange left border */
+.card-item.card-item-draft {
+  border-left: 3px solid var(--warning);
+}
+
 .card-item .card-item-title {
   font-size: 14px;
   font-weight: 500;
@@ -351,6 +383,12 @@ section#content {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.card-item .card-item-caption em.needs-edit {
+  color: var(--text-muted);
+  opacity: 0.5;
+  font-style: italic;
 }
 
 .card-item .card-item-meta {
@@ -378,6 +416,12 @@ section#content {
 
 .card-item .card-item-image.missing {
   color: var(--danger);
+}
+
+/* Warning date text */
+.date-missing {
+  color: var(--warning) !important;
+  font-weight: 500;
 }
 
 /* ---- Buttons ---- */
@@ -411,10 +455,10 @@ button.danger {
 
 /* ---- Rarity colors ---- */
 
-.rarity-everyday { color: var(--everyday); }
-.rarity-favorite { color: var(--favorite); }
+.rarity-everyday  { color: var(--everyday); }
+.rarity-favorite  { color: var(--favorite); }
 .rarity-milestone { color: var(--milestone); }
-.rarity-epic { color: var(--epic); }
+.rarity-epic      { color: var(--epic); }
 .rarity-legendary { color: var(--legendary); }
 
 /* ---- Empty state ---- */
@@ -428,4 +472,56 @@ button.danger {
 .empty-state p {
   margin-top: 8px;
   font-size: 14px;
+}
+
+/* ---- ZIP Import Progress Overlay ---- */
+
+#import-progress {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.progress-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 36px 48px;
+  min-width: 360px;
+  text-align: center;
+}
+
+.progress-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+#import-progress-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  min-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress-bar-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.15s ease;
+  width: 0%;
 }

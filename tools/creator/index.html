@@ -13,7 +13,9 @@
       <span id="stats"></span>
       <button onclick="exportData()">📦 Export to content/</button>
       <button onclick="importData()">📂 Import JSON</button>
+      <button onclick="triggerZipImport()" class="zip-btn">📥 Import ZIP</button>
       <input type="file" id="import-file" accept=".json" hidden>
+      <input type="file" id="zip-import-file" accept=".zip" hidden>
     </div>
   </header>
 
@@ -87,8 +89,8 @@
             </label>
             <label>
               Image Filename
-              <input type="text" id="card-image" placeholder="beach-day.jpg">
-              <small>Place the actual file in content/images/</small>
+              <input type="text" id="card-image" placeholder="beach-day.jpg or packname/beach-day.jpg">
+              <small>Place the actual file in content/images/ or content/images/packname/</small>
             </label>
             <label>
               Preview Image (optional)
@@ -123,13 +125,30 @@
       <div id="card-list-panel">
         <div class="card-list-header">
           <h2 id="card-list-title">Select a pack to view cards</h2>
-          <button id="add-card-btn" onclick="showCardForm()" hidden>+ Add Card</button>
+          <div class="card-list-actions">
+            <span id="draft-count" class="draft-count" hidden></span>
+            <button id="add-card-btn" onclick="showCardForm()" hidden>+ Add Card</button>
+          </div>
         </div>
         <div id="card-list"></div>
       </div>
     </section>
   </main>
 
+  <!-- ZIP import progress overlay -->
+  <div id="import-progress" hidden>
+    <div class="progress-modal">
+      <p class="progress-title">Importing ZIP…</p>
+      <p id="import-progress-text">Reading file…</p>
+      <div class="progress-bar-track">
+        <div id="import-progress-bar" class="progress-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Libraries for ZIP + EXIF -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

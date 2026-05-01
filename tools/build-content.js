@@ -58,8 +58,8 @@ function validate(packs, cards) {
   });
 
   if (missingImages.length > 0) {
-    console.warn(`⚠️  ${missingImages.length} image(s) not found in content/images/:`);
-    missingImages.forEach((img) => console.warn(`   - ${img}`));
+    console.warn(`⚠️  ${missingImages.length} image(s) not found under content/images/:`);
+    missingImages.forEach((img) => console.warn(`   - content/images/${img}`));
   }
 
   if (errors.length > 0) {
@@ -132,6 +132,9 @@ function copyImages(cards) {
     const dest = path.join(IMAGES_DEST, filename);
 
     if (fs.existsSync(src)) {
+      // Create subdirectory if the image path contains a folder (e.g. packname/photo.jpg)
+      const destDir = path.dirname(dest);
+      if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
       fs.copyFileSync(src, dest);
       copied++;
     }
