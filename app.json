@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Memormon",
+    "name": "MemoryMon",
     "slug": "memormon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "scheme": "memormon",
+    "scheme": "memorymon",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.memormon.app"
+      "bundleIdentifier": "com.memorymon.app"
     },
     "web": {
       "bundler": "metro",

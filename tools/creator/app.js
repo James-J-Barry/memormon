@@ -1,5 +1,5 @@
 // ==========================================
-// Memormon Card Creator — Logic
+// MemoryMon Card Creator — Logic
 // All data persists in localStorage
 // ==========================================
 
@@ -41,8 +41,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function loadFromStorage() {
   try {
-    packs = JSON.parse(localStorage.getItem("memormon-packs") || "[]");
-    cards = JSON.parse(localStorage.getItem("memormon-cards") || "[]");
+    packs = JSON.parse(localStorage.getItem("memorymon-packs") || "[]");
+    cards = JSON.parse(localStorage.getItem("memorymon-cards") || "[]");
   } catch {
     packs = [];
     cards = [];
@@ -50,8 +50,8 @@ function loadFromStorage() {
 }
 
 function saveToStorage() {
-  localStorage.setItem("memormon-packs", JSON.stringify(packs));
-  localStorage.setItem("memormon-cards", JSON.stringify(cards));
+  localStorage.setItem("memorymon-packs", JSON.stringify(packs));
+  localStorage.setItem("memorymon-cards", JSON.stringify(cards));
   updateStats();
 }
 
@@ -245,7 +245,11 @@ function renderCards() {
     const isPlaceholderDate = card.date === "0000-00-00";
     const div = document.createElement("div");
     div.className = "card-item" + (isPlaceholderDate ? " card-item-draft" : "");
+    const thumbStyle = card.image
+      ? `background-image: url('/content/images/${card.image}')`
+      : "";
     div.innerHTML = `
+      <div class="card-item-thumb" style="${thumbStyle}">${card.image ? "" : "📷"}</div>
       <div class="card-item-title">${card.title}</div>
       <div class="card-item-caption">${card.caption || '<em class="needs-edit">no caption</em>'}</div>
       <div class="card-item-meta">
@@ -398,9 +402,25 @@ function updateCardPreview() {
   previewCard.style.borderColor = `var(--${rarity})`;
 
   const previewImage = document.getElementById("preview-image");
+  const imageFilename = document.getElementById("card-image").value.trim();
+
   if (previewImageData) {
+    // Manually picked file takes priority
     previewImage.textContent = "";
     previewImage.style.backgroundImage = `url(${previewImageData})`;
+  } else if (imageFilename) {
+    // Try to load from content/images/ automatically
+    const url = `/content/images/${imageFilename}`;
+    const test = new Image();
+    test.onload = () => {
+      previewImage.textContent = "";
+      previewImage.style.backgroundImage = `url(${url})`;
+    };
+    test.onerror = () => {
+      previewImage.textContent = "📷";
+      previewImage.style.backgroundImage = "none";
+    };
+    test.src = url;
   } else {
     previewImage.textContent = "📷";
     previewImage.style.backgroundImage = "none";
@@ -602,7 +622,7 @@ async function handleZipImport(e) {
     if (exifrAvailable) {
       try {
         const arrayBuffer = await entry.async("arraybuffer");
-        const exifData = await exifr.parse(arrayBuffer, ["DateTimeOriginal"]);
+        const exifData = await exifr.parse(arrayBuffer, { pick: ["DateTimeOriginal"], workerEnabled: false });
         if (exifData?.DateTimeOriginal) {
           const d = new Date(exifData.DateTimeOriginal);
           if (!isNaN(d.getTime())) {

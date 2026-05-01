@@ -4,102 +4,894 @@ import { Card } from "../types";
 
 export const CARDS: Card[] = [
   {
-    "id": "card-mojeljrnixmc",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "Animal Crossing Island Visits",
-    "caption": "Oh my god I loveeeee animal crossing. Nice water bottle.",
-    "date": "2022-05-23",
+    "id": "card-momjf68272fi",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Llama plant",
+    "caption": "I think his name was Fernando, correct me if I'm worng",
+    "date": "2022-07-27",
     "rarity": "everyday",
-    "image": "animalcrossing.jpg"
+    "image": "highschool/IMG_2730.jpeg"
   },
   {
-    "id": "card-mojeomi9eq13",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "Your Award Ceremony",
-    "caption": "When I realized I was dating the smartest girl ever.",
+    "id": "card-momjf68b4u78",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Your Graduation",
+    "caption": "I was so proud to be with you",
+    "date": "2022-06-01",
+    "rarity": "milestone",
+    "image": "highschool/IMG_0561.jpeg"
+  },
+  {
+    "id": "card-momjf68olf9x",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Animal Crossing Visits",
+    "caption": "OMG I love animal crossing.... nice water bottle",
+    "date": "2022-05-23",
+    "rarity": "favorite",
+    "image": "highschool/IMG_1530.jpg"
+  },
+  {
+    "id": "card-momjf69zu8o3",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Summer Vacation",
+    "caption": "While I patiently waited for you to come back",
+    "date": "2022-07-30",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2116.jpeg"
+  },
+  {
+    "id": "card-momjf6ah196h",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Messing with Bam",
+    "caption": "He loves me more actually",
+    "date": "2022-08-17",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2507.jpeg"
+  },
+  {
+    "id": "card-momjf6as1w80",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Bowling with Your Friends",
+    "caption": "I got my ass destroyed",
+    "date": "2022-07-24",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2706.jpeg"
+  },
+  {
+    "id": "card-momjf6axeu9h",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Prom Dinner",
+    "caption": "I remember being distracted by how pretty you are",
+    "date": "2022-05-07",
+    "rarity": "everyday",
+    "image": "highschool/67364970225__C08F8272-8EEF-4B55-ABA0-8E32A6FEF34B.jpeg"
+  },
+  {
+    "id": "card-momjf6ayyk6p",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Fourth of July",
+    "caption": "with friends and family",
+    "date": "2022-07-04",
+    "rarity": "milestone",
+    "image": "highschool/IMG_4718.jpeg"
+  },
+  {
+    "id": "card-momjf6b855dw",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Lainey in a Bucket",
+    "caption": "hehehehehe",
+    "date": "2022-07-27",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2727.jpeg"
+  },
+  {
+    "id": "card-momjf6blmacc",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Sunset in Solomons",
+    "caption": "Always beautiful, not as beautiful as you",
+    "date": "2022-08-16",
+    "rarity": "favorite",
+    "image": "highschool/IMG_3136.jpeg"
+  },
+  {
+    "id": "card-momjf6cgy8zu",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Getting Ready For Prom",
+    "caption": "My heart was beating out of my chest",
+    "date": "2022-05-07",
+    "rarity": "everyday",
+    "image": "highschool/IMG_1784.jpeg"
+  },
+  {
+    "id": "card-momjf6dc1rxx",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Cat Cafe",
+    "caption": "Mt. Purrnon in DC",
+    "date": "2022-08-15",
+    "rarity": "favorite",
+    "image": "highschool/IMG_3097.jpeg"
+  },
+  {
+    "id": "card-momjf6djkxj1",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Awards Ceremony",
+    "caption": "When I realized I was dating the smartest person ever",
     "date": "2022-05-31",
     "rarity": "favorite",
-    "image": "awardceremony.jpeg"
+    "image": "highschool/IMG_2096.jpeg"
   },
   {
-    "id": "card-mojerxjx67o1",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "Jazz Club",
+    "id": "card-momjf6e6v2c7",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Options",
+    "caption": "Pick a hoodie, any hoodie",
+    "date": "2022-05-15",
+    "rarity": "everyday",
+    "image": "highschool/67428209680__339B56A0-C760-4005-AAEC-FF59AAB72071.jpeg"
+  },
+  {
+    "id": "card-momjf6ehhr11",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Jazz Band",
     "caption": "Where we technically met",
     "date": "2018-02-14",
-    "rarity": "everyday",
-    "image": "jazzclub.jpeg"
-  },
-  {
-    "id": "card-mojezy3jc97m",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "Your High School Graduation",
-    "caption": "I was super proud of you",
-    "date": "2022-06-01",
-    "rarity": "everyday",
-    "image": "yourHSgraduation.jpeg"
-  },
-  {
-    "id": "card-mojf3e8m9w6z",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "Westfeild Mall Trip",
-    "caption": "I should've bought that cow outfit",
-    "date": "2022-05-28",
-    "rarity": "everyday",
-    "image": "malltrip.jpeg"
-  },
-  {
-    "id": "card-mojf509u4jri",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "Us but LEGO",
-    "caption": "Plus the weird bird head guy. I think I still have little you somewhere",
-    "date": "2022-05-28",
-    "rarity": "everyday",
-    "image": "legoreps.jpeg"
-  },
-  {
-    "id": "card-mojf7wbv3dbq",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "LEGO Spaceship Building",
-    "caption": "Built while watching Avatar and Stranger Things, and doing nothing else...",
-    "date": "2022-05-26",
-    "rarity": "favorite",
-    "image": "buildinglego.jpeg"
-  },
-  {
-    "id": "card-mojfar323z9a",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "First Date",
-    "caption": "Salsas and a lemon in the Giant parking lot",
-    "date": "2022-05-13",
     "rarity": "epic",
-    "image": "firstdate.jpeg"
+    "image": "highschool/IMG_1634.jpeg"
   },
   {
-    "id": "card-mojfdvsg5o5d",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "After Prom",
-    "caption": "Aparently, I was supposed to kiss you here. Oops",
+    "id": "card-momjf6f64zx2",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Rocket LEGO",
+    "caption": "LEGO, Avatar, and NO OTHER ACTIVITIES",
+    "date": "2022-08-19",
+    "rarity": "milestone",
+    "image": "highschool/68257563202__6D5B4EC8-6413-4718-9C2F-1D28B0C88F3B.jpeg"
+  },
+  {
+    "id": "card-momjf6f94vh4",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Tennis Friends",
+    "caption": "Only reason I stayed after you graduated",
+    "date": "2022-08-22",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2649.jpeg"
+  },
+  {
+    "id": "card-momjf6fabafi",
+    "packId": "pack-momjf66nf3cw",
+    "title": "First Look at Forbes",
+    "caption": "I missed you so much already",
+    "date": "2022-08-22",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2648.jpeg"
+  },
+  {
+    "id": "card-momjf6g7ytq9",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Friendship Bracelets",
+    "caption": "Cute until they started to smell really bad",
+    "date": "2022-08-08",
+    "rarity": "favorite",
+    "image": "highschool/68168394664__C5462ED1-141B-40EF-89BF-8705711E3827.jpeg"
+  },
+  {
+    "id": "card-momjf6gdotne",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Post Prom Hangout",
+    "caption": "Watching Regular Show aparently isn't what you had in mind",
     "date": "2022-05-07",
     "rarity": "favorite",
-    "image": "promafter.jpeg"
+    "image": "highschool/67367168925__FA74DB4F-D269-4B7F-912D-8FCECFAE3101.jpeg"
   },
   {
-    "id": "card-mojff2xoj7ev",
-    "packId": "pack-moj4p7bua8gs",
+    "id": "card-momjf6gpgtho",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Apartment Shopping",
+    "caption": "Wishful thinking",
+    "date": "2022-08-01",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2652.jpeg"
+  },
+  {
+    "id": "card-momjf6h0uuhk",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Polaroid Photos",
+    "caption": "I wish I had more to put on this app",
+    "date": "2022-08-08",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2915.jpeg"
+  },
+  {
+    "id": "card-momjf6h86tfy",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Athletes' Reception",
+    "caption": "You had to sneak me in because i was an underclassman...",
+    "date": "2022-05-26",
+    "rarity": "everyday",
+    "image": "highschool/IMG_1944.jpeg"
+  },
+  {
+    "id": "card-momjf6hkcgh5",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Us as LEGO",
+    "caption": "and a weird bird guy",
+    "date": "2022-05-28",
+    "rarity": "favorite",
+    "image": "highschool/IMG_1964.jpeg"
+  },
+  {
+    "id": "card-momjf6hmckn0",
+    "packId": "pack-momjf66nf3cw",
     "title": "W's only",
     "caption": "No caption needed",
     "date": "2022-04-27",
     "rarity": "legendary",
-    "image": "wsonly.jpeg"
+    "image": "highschool/IMG_0070.jpeg"
   },
   {
-    "id": "card-mojfhyxvsvro",
-    "packId": "pack-moj4p7bua8gs",
-    "title": "First Prom",
-    "caption": "my happy place",
+    "id": "card-momjf6hpplgl",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Team Dinner",
+    "caption": "You can tell I gave the sport my all",
+    "date": "2022-05-12",
+    "rarity": "everyday",
+    "image": "highschool/IMG_4554.JPG"
+  },
+  {
+    "id": "card-momjf6hy7p2h",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Summer Camp",
+    "caption": "I was so releived to find out that there was an issue with the mail system, and you weren't ignoring my letters",
+    "date": "2022-06-19",
+    "rarity": "milestone",
+    "image": "highschool/IMG_2280.JPG"
+  },
+  {
+    "id": "card-momjf6i0dms0",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Mall Trip",
+    "caption": "H&M, sushi, and ASPCA",
+    "date": "2022-07-10",
+    "rarity": "everyday",
+    "image": "highschool/IMG_3175.JPG"
+  },
+  {
+    "id": "card-momjf6icl7ep",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Beach Bunny Concert",
+    "caption": "My first concert ever",
+    "date": "2022-08-08",
+    "rarity": "milestone",
+    "image": "highschool/68169314035__9EA5ECE5-4861-4BF9-8322-34816D8A63DF.jpeg"
+  },
+  {
+    "id": "card-momjf6ituc5p",
+    "packId": "pack-momjf66nf3cw",
+    "title": "First Dance",
+    "caption": "You can see how red I was, I was having a great time",
     "date": "2022-05-07",
     "rarity": "milestone",
-    "image": "myhappyplace1.jpeg"
+    "image": "highschool/IMG_4360_Original.jpeg"
+  },
+  {
+    "id": "card-momjf6j9raiw",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Trying on Silly Outfits",
+    "caption": "I really shouldv'e bought the cow one",
+    "date": "2022-05-28",
+    "rarity": "everyday",
+    "image": "highschool/IMG_1031.jpeg"
+  },
+  {
+    "id": "card-momjf6jaldlh",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Salsas Date",
+    "caption": "What is the best type of energy generation? There's a right answer",
+    "date": "2022-06-08",
+    "rarity": "favorite",
+    "image": "highschool/IMG_2493.JPG"
+  },
+  {
+    "id": "card-momjf6ji86mk",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Playing Switch Together",
+    "caption": "This was just after I got home from camp",
+    "date": "2022-07-03",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2877.JPG"
+  },
+  {
+    "id": "card-momjf6jwiqcc",
+    "packId": "pack-momjf66nf3cw",
+    "title": "First Prom",
+    "caption": "my happy place (is with you)",
+    "date": "2022-05-07",
+    "rarity": "milestone",
+    "image": "highschool/IMG_1787.jpeg"
+  },
+  {
+    "id": "card-momjf6k1n8no",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Late Night Facetime",
+    "caption": "Early precedent of a staple in our relationship",
+    "date": "2022-08-02",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2847.jpeg"
+  },
+  {
+    "id": "card-momjf6ki3lvn",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Tennis Team",
+    "caption": "Where we actually started talking",
+    "date": "2022-03-30",
+    "rarity": "everyday",
+    "image": "highschool/IMG_1441.jpeg"
+  },
+  {
+    "id": "card-momjf6luogzi",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Prom Dress Shopping",
+    "caption": "And you had no idea you would go with me",
+    "date": "2022-04-07",
+    "rarity": "everyday",
+    "image": "highschool/IMG_0587.jpeg"
+  },
+  {
+    "id": "card-momjf6m2ttij",
+    "packId": "pack-momjf66nf3cw",
+    "title": "First Kiss",
+    "caption": "I don't even remember what movie we were there to see",
+    "date": "2022-05-10",
+    "rarity": "epic",
+    "image": "highschool/IMG_2435.JPG"
+  },
+  {
+    "id": "card-momjf6mhx97t",
+    "packId": "pack-momjf66nf3cw",
+    "title": "First Date",
+    "caption": "I couldn't kiss you because of the lemon, no other reason",
+    "date": "2022-05-13",
+    "rarity": "epic",
+    "image": "highschool/67417606403__D416D660-B928-48F5-B58B-3C794F345D2C.jpeg"
+  },
+  {
+    "id": "card-momjf6mk4krv",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Great Minds Think Alike",
+    "caption": "I really want to know what we are reacting to in this photo",
+    "date": "2022-04-28",
+    "rarity": "favorite",
+    "image": "highschool/67288296154__07A93AD3-A06C-43B7-9826-FFEC47C9CADF.jpeg"
+  },
+  {
+    "id": "card-momjf6mw0qbg",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Before We Dated",
+    "caption": "I saw this photo on your BeReal... 15 yr old me was losing my mind",
+    "date": "2022-04-21",
+    "rarity": "everyday",
+    "image": "highschool/IMG_1267.JPG"
+  },
+  {
+    "id": "card-momjf6o1yqm4",
+    "packId": "pack-momjf66nf3cw",
+    "title": "Cooking With the Kurys",
+    "caption": "I can really wear an apron",
+    "date": "2022-08-09",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2961.PNG"
+  },
+  {
+    "id": "card-momjf6oalwry",
+    "packId": "pack-momjf66nf3cw",
+    "title": "BeReal",
+    "caption": "Became our staple photo-taking method for a while",
+    "date": "2022-06-03",
+    "rarity": "everyday",
+    "image": "highschool/IMG_2135.jpeg"
+  },
+  {
+    "id": "card-momjjqvlvqg3",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Glitchy Discord Calls",
+    "caption": "Idk you might look better in green",
+    "date": "2022-08-26",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_3463.jpeg"
+  },
+  {
+    "id": "card-momjjqvs4g85",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Prom #2",
+    "caption": "my happy place (is with you) x2",
+    "date": "2023-05-13",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_5759.jpeg"
+  },
+  {
+    "id": "card-momjjqw7ps91",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Ruddy Duck Dinner",
+    "caption": "Genuinely the most beutiful person ever",
+    "date": "2023-07-30",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_9598.jpeg"
+  },
+  {
+    "id": "card-momjjqweodaj",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Habitica",
+    "caption": "Trying work through burnout, do not recomend",
+    "date": "2023-02-01",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_4390.jpeg"
+  },
+  {
+    "id": "card-momjjqwiejtw",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Phipps Visit",
+    "caption": "Like a kid in a candy store",
+    "date": "2022-09-05",
+    "rarity": "milestone",
+    "image": "freshmanyear/IMG_0452.jpeg"
+  },
+  {
+    "id": "card-momjjqwqsrev",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Pittsburgh Aquarium",
+    "caption": "Get your mind out of the gutter",
+    "date": "2023-04-08",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_7682.jpeg"
+  },
+  {
+    "id": "card-momjjqxl5hrd",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Worst Pain of my Life",
+    "caption": "Oh my god that drive killed me",
+    "date": "2023-07-13",
+    "rarity": "everyday",
+    "image": "freshmanyear/71097048871__16E87A0F-469A-4BA2-A550-2CF9838407EE.jpeg"
+  },
+  {
+    "id": "card-momjjqy12tx7",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Relaxing On the Jersey Shore",
+    "caption": "Too bad I didn't realize the couch turns into a bed",
+    "date": "2023-07-29",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_9576.jpeg"
+  },
+  {
+    "id": "card-momjjqy3mwb4",
+    "packId": "pack-momjjqv0n82v",
+    "title": "On My Way to Pittsburgh",
+    "caption": "For the first of many times",
+    "date": "2022-09-02",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_3678.JPG"
+  },
+  {
+    "id": "card-momjjqyw2sgb",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Ice Skating at the Wharf",
+    "caption": "I was literally running circles around you",
+    "date": "2023-01-02",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_3663.jpeg"
+  },
+  {
+    "id": "card-momjjqzf3ywp",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Hotel Room Alone",
+    "caption": "It was just like we had our own apartment",
+    "date": "2022-10-03",
+    "rarity": "milestone",
+    "image": "freshmanyear/68654660261__4EA2613A-E1B5-4376-A3E4-C84002E71DA5.jpeg"
+  },
+  {
+    "id": "card-momjjqzikt1d",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Hotel Room Facemasks",
+    "caption": "Like an old married couple",
+    "date": "2022-09-15",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_5035.JPG"
+  },
+  {
+    "id": "card-momjjr010fwl",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Chrismas",
+    "caption": "You da real gift",
+    "date": "2022-12-25",
+    "rarity": "milestone",
+    "image": "freshmanyear/IMG_6446.jpeg"
+  },
+  {
+    "id": "card-momjjr02g2jp",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Cathy and the Chapel",
+    "caption": "I was thouroughly impressed",
+    "date": "2022-09-03",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_2956.jpeg"
+  },
+  {
+    "id": "card-momjjr0t5f6o",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Creek Walk",
+    "caption": "If we do the hike slow enough, the trip won't have to end",
+    "date": "2022-10-02",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_2715.JPG"
+  },
+  {
+    "id": "card-momjjr1539cg",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Buc-ee's",
+    "caption": "I was so excited to experience true american culture",
+    "date": "2023-07-09",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_6313.jpeg"
+  },
+  {
+    "id": "card-momjjr1ydfnw",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Motion Sickness Goggles",
+    "caption": "Hey, if it works, it works.",
+    "date": "2023-07-09",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_6020.jpeg"
+  },
+  {
+    "id": "card-momjjr2n183h",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Spring Break",
+    "caption": "Still one of my favorit photos ever",
+    "date": "2023-03-05",
+    "rarity": "milestone",
+    "image": "freshmanyear/IMG_7236.jpeg"
+  },
+  {
+    "id": "card-momjjr2uvbqs",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Moe on the Phone",
+    "caption": "Look at the cat hon",
+    "date": "2022-10-08",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_5359.jpeg"
+  },
+  {
+    "id": "card-momjjr32o7fe",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Pittsburgh Zoo",
+    "caption": "Definitely better than the national zoo, strangely",
+    "date": "2023-01-02",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_6534.jpeg"
+  },
+  {
+    "id": "card-momjjr3m5l13",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Outfit Pics",
+    "caption": "Always made my day so much better",
+    "date": "2022-09-15",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_3472.jpeg"
+  },
+  {
+    "id": "card-momjjr3tcbxl",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Schenley Walk",
+    "caption": "The first of many",
+    "date": "2023-04-09",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_7807.jpeg"
+  },
+  {
+    "id": "card-momjjr442ykg",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Fourth of July",
+    "caption": "Fireworks on the water",
+    "date": "2023-07-04",
+    "rarity": "milestone",
+    "image": "freshmanyear/IMG_9049.jpeg"
+  },
+  {
+    "id": "card-momjjr4ljtrd",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Garden In Lights",
+    "caption": "They don't shine as bright as you",
+    "date": "2023-01-01",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_6514.jpeg"
+  },
+  {
+    "id": "card-momjjr4u34q9",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Our Go-To Meal",
+    "caption": "Mastered at every step",
+    "date": "2023-03-05",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_7240.jpeg"
+  },
+  {
+    "id": "card-momjjr53ko0w",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Eye Contact",
+    "caption": "On a Jersey beach",
+    "date": "2023-07-27",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_9549.jpeg"
+  },
+  {
+    "id": "card-momjjr5ebzu6",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Aquarium Trip",
+    "caption": "I have large expectations to live up to",
+    "date": "2023-04-08",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_7691.jpeg"
+  },
+  {
+    "id": "card-momjjr5vgysx",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Kamin Science Center",
+    "caption": "We should go to that planetarium if we get the chance",
+    "date": "2022-09-04",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_3797.jpeg"
+  },
+  {
+    "id": "card-momjjr63c777",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Avery in Animal Crossing",
+    "caption": "So I can make my Avery shrine room in my house",
+    "date": "2023-03-12",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_6700.jpeg"
+  },
+  {
+    "id": "card-momjjr6mlkc3",
+    "packId": "pack-momjjqv0n82v",
+    "title": "My Two Favorite People",
+    "caption": "He doesn't look very comfortable though...",
+    "date": "2023-03-05",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_7255.jpeg"
+  },
+  {
+    "id": "card-momjjr6ng5kv",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Us as LEGO II",
+    "caption": "Croissant head this time",
+    "date": "2022-11-13",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_4496.jpeg"
+  },
+  {
+    "id": "card-momjjr7g823p",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Beautiful Date in Oakland",
+    "caption": "Possibly the worst sandwich ever though",
+    "date": "2022-11-12",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_5970.jpeg"
+  },
+  {
+    "id": "card-momjjr85rcz3",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Visit Gifts",
+    "caption": "I named the plant Cathy",
+    "date": "2022-10-02",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_5073.jpeg"
+  },
+  {
+    "id": "card-momjjr8r6jgx",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Carnegie Museum of Natural History",
+    "caption": "The hunter becomes the hunted",
+    "date": "2022-11-12",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_5966.jpeg"
+  },
+  {
+    "id": "card-momjjr9xd200",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Valentines Day",
+    "caption": "First of very many",
+    "date": "2023-02-14",
+    "rarity": "legendary",
+    "image": "freshmanyear/69806849548__10035EF0-6461-412A-8187-5BCCEC247DE3.jpeg"
+  },
+  {
+    "id": "card-momjjra6s3p5",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Mocktails By the Pool",
+    "caption": "Peach syrup, sprite, peach rings, mini umbrella",
+    "date": "2023-07-23",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_9482.jpeg"
+  },
+  {
+    "id": "card-momjjradem2p",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Tennis Reunion",
+    "caption": "Back at the ol' stomping grounds",
+    "date": "2023-03-10",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_5265.jpeg"
+  },
+  {
+    "id": "card-momjjragrsrc",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Halloween Pumpkin Carving",
+    "caption": "Yours was a lot more scary",
+    "date": "2022-10-15",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_4032.jpeg"
+  },
+  {
+    "id": "card-momjjrc7kyia",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Day of Class",
+    "caption": "Baby's first commute",
+    "date": "2022-08-30",
+    "rarity": "milestone",
+    "image": "freshmanyear/IMG_1461.jpeg"
+  },
+  {
+    "id": "card-momjjrcvub9u",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Forbes Flowers",
+    "caption": "Do you still have that jar somewhere?",
+    "date": "2022-09-04",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_4458.jpeg"
+  },
+  {
+    "id": "card-momjjre9wfsx",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Snorkeling in Florida",
+    "caption": "Nurse Sharks, Barracuda, Sea turtle, stingrays",
+    "date": "2023-07-13",
+    "rarity": "legendary",
+    "image": "freshmanyear/IMG_9358.jpeg"
+  },
+  {
+    "id": "card-momjjrelaxzm",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Gingerbread Houses",
+    "caption": "I don't remember which one is mine, but I remember winning",
+    "date": "2022-12-18",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_6404.jpeg"
+  },
+  {
+    "id": "card-momjjreqousz",
+    "packId": "pack-momjjqv0n82v",
+    "title": "AP Classes",
+    "caption": "Don't even remind me",
+    "date": "2023-04-01",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_4427.JPG"
+  },
+  {
+    "id": "card-momjjrf93ypv",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Starting the Sticker Collection",
+    "caption": "The pictures of you (& moe) make it complete",
+    "date": "2022-10-11",
+    "rarity": "everyday",
+    "image": "freshmanyear/68722766640__63E20C3A-A373-434E-AA41-8E81E1A01225.jpeg"
+  },
+  {
+    "id": "card-momjjrfpibyp",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Post-Visit Mood",
+    "caption": "Not a huge fan of saying goodbye",
+    "date": "2022-09-05",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_3267.jpeg"
+  },
+  {
+    "id": "card-momjjrfu6kg3",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Hibachi Dinner",
+    "caption": "I bet I could do that",
+    "date": "2023-06-23",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_5978.JPG"
+  },
+  {
+    "id": "card-momjjrg1irt2",
+    "packId": "pack-momjjqv0n82v",
+    "title": "\"CAT PERSON\" Mug",
+    "caption": "Still holds my toiletries",
+    "date": "2022-10-20",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_5608.jpeg"
+  },
+  {
+    "id": "card-momjjrgzs8p0",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Home Visit",
+    "caption": "I guess we were in a facemask phase",
+    "date": "2022-10-14",
+    "rarity": "everyday",
+    "image": "freshmanyear/RenderedImage.jpg"
+  },
+  {
+    "id": "card-momjjrh1m3ag",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Carnegie Science Museum",
+    "caption": "The room with all of the rocks was my favorite by far",
+    "date": "2023-02-23",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_5979.JPG"
+  },
+  {
+    "id": "card-momjjrh3h5q8",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Six Flags America",
+    "caption": "Right before you left for school",
+    "date": "2022-08-15",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_4023.jpeg"
+  },
+  {
+    "id": "card-momjjriuphk4",
+    "packId": "pack-momjjqv0n82v",
+    "title": "The Plant Cabinet",
+    "caption": "And the LEGO bonsai tree we built",
+    "date": "2023-05-19",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_8261.jpeg"
+  },
+  {
+    "id": "card-momjjrjke8ou",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Florida Sunset",
+    "caption": "It looks fake, too perfect",
+    "date": "2023-07-13",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_9372.jpeg"
+  },
+  {
+    "id": "card-momjjrkoborv",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Alien Creature",
+    "caption": "Who let it on the planet",
+    "date": "2023-06-04",
+    "rarity": "favorite",
+    "image": "freshmanyear/IMG_8447.jpeg"
+  },
+  {
+    "id": "card-momjjrldq8pf",
+    "packId": "pack-momjjqv0n82v",
+    "title": "Big Yawn",
+    "caption": "Very impressive",
+    "date": "2023-04-08",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_7589.jpeg"
+  },
+  {
+    "id": "card-momjjrm4cnrw",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Christmas Cookies",
+    "caption": "Sugar cookies >>>",
+    "date": "2022-12-23",
+    "rarity": "everyday",
+    "image": "freshmanyear/IMG_4736.jpeg"
+  },
+  {
+    "id": "card-momlsdie5dl0",
+    "packId": "pack-momjjqv0n82v",
+    "title": "First Pitt Visit",
+    "caption": "I was only upset because I had to leave",
+    "date": "2022-09-03",
+    "rarity": "epic",
+    "image": "freshmanyear/IMG_3749.jpeg"
   }
 ];

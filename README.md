@@ -1,4 +1,4 @@
-# Memormon
+# MemoryMon
 
 A personal gift app — a Pokémon TCG-style memory card game where every card is a real photo and moment from your relationship. The recipient opens time-gated packs to discover memory cards, collects duplicates to unlock cosmetics, and browses a timeline of your shared history.
 
@@ -239,7 +239,7 @@ npm run build-content
 This validates the data, generates the TypeScript files the app imports, and copies all images to `assets/card-images/`. Example output:
 
 ```
-📦 Building Memormon content…
+📦 Building MemoryMon content…
 
    Found 2 packs and 47 cards
    ✅ Generated data/packs.ts and data/cards.ts
@@ -324,19 +324,19 @@ To quickly get back to a fresh state without reinstalling, clear the app's stora
 1. Shake the phone (or press `m` in the terminal) to open the Expo Dev Menu
 2. Tap **"Reload"** — this reloads JS without clearing storage
 
-To fully reset collected cards and pack counts, clear `memormon-storage` from AsyncStorage. The easiest way during development:
+To fully reset collected cards and pack counts, clear `memorymon-storage` from AsyncStorage. The easiest way during development:
 
 ```js
 // Run this in a temporary useEffect or in the Expo JS console:
 import AsyncStorage from "@react-native-async-storage/async-storage";
-AsyncStorage.removeItem("memormon-storage");
+AsyncStorage.removeItem("memorymon-storage");
 ```
 
 ---
 
 ### Resetting app state
 
-The Zustand store persists under the key `memormon-storage` in AsyncStorage. To wipe all collection data and start fresh:
+The Zustand store persists under the key `memorymon-storage` in AsyncStorage. To wipe all collection data and start fresh:
 
 1. Go to **Settings** in the app
 2. Alternatively, uninstall and reinstall Expo Go (nuclear option)
@@ -345,7 +345,7 @@ The Zustand store persists under the key `memormon-storage` in AsyncStorage. To 
 
 ## Installing on iOS
 
-There are two ways to put Memormon on an iPhone: the quick dev method using Expo Go, and the proper standalone app method using EAS Build.
+There are two ways to put MemoryMon on an iPhone: the quick dev method using Expo Go, and the proper standalone app method using EAS Build.
 
 ---
 
@@ -371,7 +371,7 @@ This is how testing works and is fine for your own device. The downside is the r
 
 ### Option B — Standalone app via EAS Build (recommended for gifting)
 
-EAS Build compiles a real `.ipa` file that installs directly on an iPhone without needing Expo Go or a running server. This is the right approach for giving Memormon as a gift.
+EAS Build compiles a real `.ipa` file that installs directly on an iPhone without needing Expo Go or a running server. This is the right approach for giving MemoryMon as a gift.
 
 #### Do I need a paid Apple Developer account?
 
@@ -477,7 +477,7 @@ If you plan to update the app after gifting, TestFlight is cleaner — it lets y
 ## Project Structure
 
 ```
-memormon/
+memorymon/
 ├── app/                        # Screens (Expo Router file-based routing)
 │   ├── _layout.tsx             # Root layout: fonts, gesture handler, status bar
 │   ├── index.tsx               # Home: pack timer, collection progress, nav

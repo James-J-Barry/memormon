@@ -146,7 +146,7 @@ function copyImages(cards) {
 // --- Main ---
 
 function main() {
-  console.log("📦 Building Memormon content...\n");
+  console.log("📦 Building MemoryMon content...\n");
 
   // Read
   const packs = readJSON("packs.json");

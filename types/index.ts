@@ -1,5 +1,5 @@
 // ==========================================
-// All TypeScript types for Memormon
+// All TypeScript types for MemoryMon
 // ==========================================
 
 /** The five rarity tiers, from most common to rarest */

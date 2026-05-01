@@ -41,7 +41,7 @@ export default function HomeScreen() {
       <BackgroundParticles />
 
       {/* Title */}
-      <Text style={s.title}>Memormon</Text>
+      <Text style={s.title}>MemoryMon</Text>
       <Text style={s.subtitle}>Our love story in cards</Text>
 
       {/* Collection progress */}

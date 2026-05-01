@@ -151,7 +151,7 @@ export const useStore = create<AppState>()(
       setRevealSpeed: (speed) => set({ revealSpeed: speed }),
     }),
     {
-      name: "memormon-storage",
+      name: "memorymon-storage",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

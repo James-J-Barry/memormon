@@ -91,7 +91,7 @@ export default function CardBack({ width, style }: Props) {
               letterSpacing: width * 0.016,
             }}
           >
-            memormon
+            MemoryMon
           </Text>
         </LinearGradient>
       </View>

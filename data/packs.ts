@@ -4,11 +4,19 @@ import { Pack } from "../types";
 
 export const PACKS: Pack[] = [
   {
-    "id": "pack-moj4p7bua8gs",
-    "name": "High School Sweethearts",
-    "emoji": "🎓",
-    "description": "cougar hunt",
-    "coverColor": "#0e7a00",
+    "id": "pack-momjf66nf3cw",
+    "name": "High School",
+    "emoji": "🐈‍⬛",
+    "description": "Tennis, Fast Food, and Driving Me Around",
+    "coverColor": "#247203",
     "sortOrder": 0
+  },
+  {
+    "id": "pack-momjjqv0n82v",
+    "name": "Freshman Year",
+    "emoji": "🚌",
+    "description": "Pitt, Facetime, and Plants",
+    "coverColor": "#0d3eaf",
+    "sortOrder": 1
   }
 ];

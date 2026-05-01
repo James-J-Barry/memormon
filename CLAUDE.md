@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Memormon is a personal React Native (Expo) gift app — a Pokemon TCGP-style trading card game where the cards are real photos and memories from a relationship. The recipient opens time-gated packs to discover memory cards, collect them, and apply cosmetic upgrades earned by pulling duplicates. It runs via Expo Go on the recipient's phone; the creator manages all card/pack data from their laptop using the content pipeline.
+MemoryMon is a personal React Native (Expo) gift app — a Pokemon TCGP-style trading card game where the cards are real photos and memories from a relationship. The recipient opens time-gated packs to discover memory cards, collect them, and apply cosmetic upgrades earned by pulling duplicates. It runs via Expo Go on the recipient's phone; the creator manages all card/pack data from their laptop using the content pipeline.
 
 ## Commands
 
@@ -43,7 +43,7 @@ After running build-content, restart the Expo dev server so the bundler picks up
 - `timeline.tsx` — all cards sorted chronologically; uncollected show date but `???` title
 - `card/[cardId].tsx` — full card detail: photo, title, caption, date, rarity, cosmetic tier management, favorite button
 
-**State** — single Zustand store (`store/useStore.ts`) persisted to AsyncStorage (`memormon-storage`). Holds the full collection (`Record<cardId, CollectionEntry>`), 3 favorites slots, and pack timer state. All mutations go through store actions.
+**State** — single Zustand store (`store/useStore.ts`) persisted to AsyncStorage (`memorymon-storage`). Holds the full collection (`Record<cardId, CollectionEntry>`), 3 favorites slots, and pack timer state. All mutations go through store actions.
 
 **Data** — static TypeScript arrays (`CARDS`, `PACKS`) imported directly at build time. No network requests; all content is bundled.
 

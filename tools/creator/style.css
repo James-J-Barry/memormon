@@ -1,5 +1,5 @@
 /* ==========================================
-   Memormon Card Creator — Styles
+   MemoryMon Card Creator — Styles
    Dark theme matching the app's aesthetic
    ========================================== */
 
@@ -371,6 +371,20 @@ section#content {
   border-left: 3px solid var(--warning);
 }
 
+.card-item-thumb {
+  width: 100%;
+  height: 90px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: var(--surface-light);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
 .card-item .card-item-title {
   font-size: 14px;
   font-weight: 500;
@@ -475,6 +489,8 @@ button.danger {
 }
 
 /* ---- ZIP Import Progress Overlay ---- */
+
+[hidden] { display: none !important; }
 
 #import-progress {
   position: fixed;
