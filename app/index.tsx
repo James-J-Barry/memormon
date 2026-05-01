@@ -42,7 +42,7 @@ export default function HomeScreen() {
 
       {/* Title */}
       <Text style={s.title}>Memormon</Text>
-      <Text style={s.subtitle}>A love story in cards</Text>
+      <Text style={s.subtitle}>Our love story in cards</Text>
 
       {/* Collection progress */}
       <View style={s.progressBox}>
