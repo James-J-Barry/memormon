@@ -373,9 +373,22 @@ This is how testing works and is fine for your own device. The downside is the r
 
 EAS Build compiles a real `.ipa` file that installs directly on an iPhone without needing Expo Go or a running server. This is the right approach for giving Memormon as a gift.
 
+#### Do I need a paid Apple Developer account?
+
+**Short answer: yes, if you want the app to last.**
+
+Apple requires all apps installed outside the App Store to be cryptographically signed. There are two tiers:
+
+| Method | Cost | App lifespan | Notes |
+|--------|------|-------------|-------|
+| **Free Apple ID** (Xcode direct) | Free | **7 days**, then expires | Fine for testing on your own phone this week; terrible for a gift |
+| **Apple Developer Program** | $99/year | 1 year from signing date | The installed app keeps working even after your subscription lapses |
+
+If you're not ready to pay $99/year yet, keep using Option A (Expo Go) while you're still building the app, then get the developer account when you're ready to actually give it to her. You only need the account once to produce a signed build — after that the app runs on her phone independently for a year.
+
 **Prerequisites:**
 - An [Expo account](https://expo.dev) (free)
-- An [Apple Developer account](https://developer.apple.com) ($99/year) — required for distribution
+- An [Apple Developer account](https://developer.apple.com) ($99/year)
 - EAS CLI installed: `npm install -g eas-cli`
 
 #### Setup (one time)
@@ -431,6 +444,24 @@ Download the `.ipa` from the EAS dashboard, connect the iPhone via USB, open Xco
 
 **Method 3 — Via Apple Configurator 2:**
 Download from the Mac App Store, connect iPhone via USB, drag and drop the `.ipa` file.
+
+#### Free option: Xcode direct install (7-day expiry)
+
+If you just want to install the app on one phone right now without paying for a developer account, Xcode can sign it with a free Apple ID:
+
+```bash
+# Build and install directly to a connected iPhone (no EAS, no paid account)
+npx expo run:ios --device
+```
+
+Requirements:
+- Xcode installed on your Mac
+- iPhone connected via USB and trusted on the Mac
+- A free Apple ID signed into Xcode (Preferences → Accounts)
+
+The app will install and work normally — but after **7 days** the certificate expires and the app will refuse to launch until you reinstall it. Plug in the phone and run the command again to get another 7 days.
+
+---
 
 #### TestFlight (for ongoing updates)
 
