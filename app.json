@@ -17,6 +17,10 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.memormon.app"
     },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
     "plugins": [
       "expo-router"
     ]

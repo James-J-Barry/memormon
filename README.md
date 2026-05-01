@@ -1,6 +1,6 @@
 # Memormon
 
-A personal gift app for Avery — a Pokémon TCG-style memory card game where every card is a real photo and moment from your relationship. The recipient opens time-gated packs to discover memory cards, collects duplicates to unlock cosmetics, and browses a timeline of your shared history.
+A personal gift app — a Pokémon TCG-style memory card game where every card is a real photo and moment from your relationship. The recipient opens time-gated packs to discover memory cards, collects duplicates to unlock cosmetics, and browses a timeline of your shared history.
 
 ---
 
